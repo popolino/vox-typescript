@@ -1,57 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React, { useEffect } from "react";
+import "./App.scss";
+import Profile from "./features/profile/Profile";
+import { Routes, Route, HashRouter } from "react-router-dom";
+import "./App.scss";
+import "./reset.css";
+import Router from "./features/Router/Router";
+import Auth from "./features/Auth/Auth";
+import { useBoundActions } from "./app/store";
+import { fetchAuth, fetchLogout } from "./features/Auth/AuthSlice";
+import { useAppSelector } from "./app/hooks";
+
+const allActions = {
+  fetchAuth,
+};
 
 function App() {
+  const boundActions = useBoundActions(allActions);
+
+  useEffect(() => {
+    boundActions.fetchAuth();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <HashRouter>
+      <Routes>
+        <Route path="/auth/*" element={<Auth />} />
+        <Route path="/*" element={<Router />} />
+      </Routes>
+    </HashRouter>
   );
 }
 

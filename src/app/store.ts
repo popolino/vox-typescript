@@ -1,9 +1,22 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import {
+  configureStore,
+  ThunkAction,
+  Action,
+  ActionCreatorsMapObject,
+  AsyncThunk,
+} from "@reduxjs/toolkit";
+import { profileReducer } from "../features/profile/ProfileSlice";
+import { usersReducer } from "../features/users/usersSlice";
+import { authReducer } from "../features/Auth/AuthSlice";
+import { useAppDispatch } from "./hooks";
+import bindActionCreators from "react-redux/es/utils/bindActionCreators";
+import { useMemo } from "react";
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    usersReducer,
+    profileReducer,
+    authReducer,
   },
 });
 
@@ -15,3 +28,21 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+export type BoundActions<Actions extends ActionCreatorsMapObject> = {
+  [key in keyof Actions]: Actions[key] extends AsyncThunk<any, any, any>
+    ? BoundAsyncThunk<Actions[key]>
+    : Actions[key];
+};
+
+export type BoundAsyncThunk<Thunk extends AsyncThunk<any, any, any>> = (
+  ...args: Parameters<Thunk>
+) => ReturnType<ReturnType<Thunk>>;
+
+export const useBoundActions = <Actions extends ActionCreatorsMapObject>(
+  actions: Actions
+): BoundActions<Actions> => {
+  const dispatch = useAppDispatch();
+
+  // @ts-ignore
+  return useMemo(() => bindActionCreators(actions, dispatch), []);
+};

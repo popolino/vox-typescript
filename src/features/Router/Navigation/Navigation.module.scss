@@ -1,0 +1,13 @@
+.sidebar{
+display: flex;
+  flex-direction: column;
+  padding: 0 2.5rem;
+  width: 27rem;
+}
+
+@media all and (max-width: 600px){
+ .sidebar {
+   display: none;
+ }
+}
+

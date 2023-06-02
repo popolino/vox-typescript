@@ -1,0 +1,71 @@
+.pagination{
+  position: absolute;
+  z-index: 1;
+  bottom: 5rem;
+  right: 20%;
+  background: var(--opacity_background);
+  width: 40rem;
+  height: 11rem;
+  border-radius: 2.4rem;
+  padding: 2rem 3rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  backdrop-filter: blur(2px);
+  .top-panel{
+    display: flex;
+    gap: 1.5rem;
+    & > button,p{
+      font-size: 1.6rem;
+      color: var(--foreground);
+      font-weight: 600;
+      background: none;
+      padding: 0.5rem;
+    }
+    & > button:disabled{
+      color: var(--light-gray);
+    }
+    & > p{
+      padding-top: 1rem;
+    }
+
+    .selected{
+      background: var(--blue);
+      min-width: 3rem;
+      height: 3rem;
+      padding: 0 1rem;
+      border-radius: 50%;
+      color: var(--white);
+    }
+
+  }
+  .bottom-panel{
+    justify-content: space-between;
+    width: 100%;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    & > p{
+      font-size: 1.6rem;
+      color: var(--subtext);
+      font-weight: 600;
+    }
+    select{
+      width: 6rem;
+      border-radius: 2rem;
+      height: 3rem;
+      border: 1px solid var(--border);
+      font-size: 1.3rem;
+      color: var(--subtext);
+      padding-left: 1rem;
+    }
+    option{
+      font-size: inherit;
+      color: inherit;
+      border-radius: 2rem;
+      margin: 0.5rem 0;
+    }
+  }
+}
