@@ -12,6 +12,7 @@ type TUserProps = {
   followed: boolean;
   handleFollowToUser: (id: number) => void;
   handleUnFollowToUser: (id: number) => void;
+  setCurrentId: (id: number) => void;
 };
 
 const User: React.FC<TUserProps> = ({
@@ -21,11 +22,12 @@ const User: React.FC<TUserProps> = ({
   followed,
   handleFollowToUser,
   handleUnFollowToUser,
+  setCurrentId,
 }) => {
   return (
     <div className={classes.friend}>
       <div className={clsx("avatar", classes.avatar)}>
-        <NavLink to={`/profile/${id}`}>
+        <NavLink to={`/profile/${id}`} onClick={() => setCurrentId(id)}>
           <img src={photos} alt="" />
         </NavLink>
       </div>

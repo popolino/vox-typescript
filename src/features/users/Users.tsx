@@ -15,6 +15,7 @@ import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useBoundActions } from "../../app/store";
 import Paginator from "../../components/Paginator/Paginator";
+import { profileActions } from "../profile/ProfileSlice";
 
 // type TProps = {
 //   totalUsersCount: number;
@@ -33,6 +34,7 @@ const allActions = {
   followToUser,
   unFollowToUser,
   ...usersActions,
+  ...profileActions,
 };
 
 const Users = (props: any) => {
@@ -45,6 +47,10 @@ const Users = (props: any) => {
 
   const boundActions = useBoundActions(allActions);
   const { enqueueSnackbar } = useSnackbar();
+
+  const setCurrentId = (id: number) => {
+    boundActions.setCurrentUserId(id);
+  };
 
   const handleFollowToUser = (id: number) => {
     boundActions.followToUser(id);
@@ -69,6 +75,7 @@ const Users = (props: any) => {
     setPageCount(count);
     boundActions.fetchUsers({ currentPage: currentPage, pageCount: count });
   };
+
   useEffect(() => {
     boundActions.fetchUsers({ currentPage: currentPage, pageCount: pageCount });
   }, []);
@@ -90,6 +97,7 @@ const Users = (props: any) => {
           {users.map((user) => (
             <User
               key={user.id}
+              setCurrentId={setCurrentId}
               id={user.id}
               name={user.name}
               photos={user.photos.small ? user.photos.small : avatar}

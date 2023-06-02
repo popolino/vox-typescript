@@ -13,10 +13,9 @@ const NewPost = (props: any) => {
       postComment: values.post,
     });
   };
-  const owner = true;
   return (
     <>
-      {owner && (
+      {props.owner && (
         <div className="post-container" id="text" ref={ref}>
           <PostReduxForm
             onSubmit={onAddPost}

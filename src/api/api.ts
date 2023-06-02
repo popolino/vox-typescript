@@ -53,6 +53,12 @@ export const profileAPI = {
   getUserProfile(userId: number) {
     return instance.get<TProfile>(`profile/` + userId);
   },
+  getStatus(userId: number) {
+    return instance.get<string>(`profile/status/${userId}`);
+  },
+  updateStatus(status: string) {
+    return instance.put(`profile/status`, { status: status });
+  },
 };
 
 export const friendsApi = {

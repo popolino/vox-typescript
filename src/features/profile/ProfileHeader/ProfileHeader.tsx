@@ -63,24 +63,25 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
                 alt=""
               />
             </div>
-            {/*<div className={`${classes["header-unique-name"]} unique-name`}>*/}
-            {/*  {props.profile ? `@user${props.profile.userId}` : props.email}*/}
-            {/*</div>*/}
+            <div className={`${classes["header-unique-name"]} unique-name`}>
+              {profile && `@user${profile.userId}`}
+            </div>
           </div>
         </div>
         <div className={classes["about-user"]}>
           <div className={classes["about-user__content"]}>
             <div className={classes.username}>
-              {/*<p>{profile ? profile.fullName : login}</p>*/}
+              <p>{profile && profile.fullName}</p>
             </div>
-            {/*<ProfileStatusWithHooks*/}
-            {/*  profileEditMode={profileEditMode}*/}
-            {/*  status={status}*/}
-            {/*  newStatus={newStatus}*/}
-            {/*  handleSetStatus={handleSetStatus}*/}
-            {/*  handleChangeStatus={handleChangeStatus}*/}
-            {/*  handleProfileEditMode={handleProfileEditMode}*/}
-            {/*/>*/}
+            <ProfileStatusWithHooks
+              profileEditMode={profileEditMode}
+              status={status}
+              newStatus={newStatus}
+              handleSetStatus={handleSetStatus}
+              handleChangeStatus={handleChangeStatus}
+              handleProfileEditMode={handleProfileEditMode}
+              profile={profile}
+            />
             {/*  <ProfileReduxForm*/}
             {/*    {...props}*/}
             {/*    onSubmit={onSubmit}*/}
