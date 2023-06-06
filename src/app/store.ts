@@ -8,6 +8,7 @@ import {
 import { profileReducer } from "../features/profile/ProfileSlice";
 import { usersReducer } from "../features/users/usersSlice";
 import { authReducer } from "../features/Auth/AuthSlice";
+import { appReducer } from "../AppSlice";
 import { useAppDispatch } from "./hooks";
 import bindActionCreators from "react-redux/es/utils/bindActionCreators";
 import { useMemo } from "react";
@@ -17,6 +18,7 @@ export const store = configureStore({
     usersReducer,
     profileReducer,
     authReducer,
+    appReducer
   },
 });
 

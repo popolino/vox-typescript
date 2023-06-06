@@ -7,10 +7,13 @@ import { authAPI, profileAPI, usersAPI } from "../../api/api";
 import { usersSlice } from "../users/usersSlice";
 import { TAuth, TLogin } from "./Auth.types";
 import actions from "redux-form/lib/actions";
+import { profileSlice } from "../profile/ProfileSlice";
 
 export interface ProfileState {
   isAuth: boolean;
   authData: TAuth | null;
+  metaStatus: "pending" | "fulfilled" | "rejected";
+
   meta: {
     fetching: boolean;
     creating: boolean;
@@ -22,6 +25,7 @@ export interface ProfileState {
 const initialState: ProfileState = {
   isAuth: false,
   authData: null,
+  metaStatus: "fulfilled",
   meta: {
     fetching: false,
     creating: false,
@@ -44,19 +48,22 @@ export const authSlice = createSlice({
     //   state.profile = action.payload;
     // },
   },
-  // extraReducers: (builder) => {
-  //   // FETCH
-  //   builder.addCase(fetchUserProfile.pending, (state) => {
-  //     state.meta.fetching = true;
-  //   });
-  //   builder.addCase(fetchUserProfile.fulfilled, (state, { payload }) => {
-  //     state.profile = payload;
-  //     state.meta.fetching = false;
-  //   });
-  //   builder.addCase(fetchUserProfile.rejected, (state, { payload }) => {
-  //     state.meta.fetching = false;
-  //   });
-  // },
+  extraReducers: (builder) => {
+    // FETCH
+    builder.addCase(fetchAuth.pending, (state) => {
+      state.meta.fetching = true;
+      state.metaStatus = "pending";
+    });
+    builder.addCase(fetchAuth.fulfilled, (state, { payload }) => {
+      state.authData = payload;
+      state.meta.fetching = false;
+      state.metaStatus = "fulfilled";
+    });
+    builder.addCase(fetchAuth.rejected, (state, { payload }) => {
+      state.meta.fetching = false;
+      state.metaStatus = "rejected";
+    });
+  },
 });
 
 export const fetchAuth = createAsyncThunk<TAuth, void, { rejectValue: string }>(
@@ -101,6 +108,8 @@ export const fetchLogout = createAsyncThunk<
   try {
     const response: any = await authAPI.logout();
     dispatch(authSlice.actions.setAuthData(null));
+    dispatch(authSlice.actions.setIsAuth(false));
+
     return response.data;
   } catch (e: any) {
     return rejectWithValue(e.message);

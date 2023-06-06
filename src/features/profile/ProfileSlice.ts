@@ -18,6 +18,7 @@ export interface ProfileState {
   wallData: TPost[];
   button: boolean;
   profile: TProfile | null;
+  metaStatus: "pending" |  "fulfilled" | 'rejected'
   meta: {
     fetching: boolean;
     creating: boolean;
@@ -58,6 +59,7 @@ const initialState: ProfileState = {
   ],
   button: false,
   profile: null,
+  metaStatus: "fulfilled",
   meta: {
     fetching: false,
     creating: false,
@@ -79,20 +81,26 @@ export const profileSlice = createSlice({
     setUserProfile: (state, action) => {
       state.profile = action.payload;
     },
+    savePhoto: (state, action) => {
+      state.profile && (state.profile.photos = action.payload);
+    }
   },
-  // extraReducers: (builder) => {
-  //   // FETCH
-  //   builder.addCase(fetchUserProfile.pending, (state) => {
-  //     state.meta.fetching = true;
-  //   });
-  //   builder.addCase(fetchUserProfile.fulfilled, (state, { payload }) => {
-  //     state.profile = payload;
-  //     state.meta.fetching = false;
-  //   });
-  //   builder.addCase(fetchUserProfile.rejected, (state, { payload }) => {
-  //     state.meta.fetching = false;
-  //   });
-  // },
+  extraReducers: (builder) => {
+    // FETCH
+    builder.addCase(fetchUserProfile.pending, (state) => {
+      state.meta.fetching = true;
+      state.metaStatus = 'pending'
+    });
+    builder.addCase(fetchUserProfile.fulfilled, (state, { payload }) => {
+      state.profile = payload;
+      state.meta.fetching = false;
+      state.metaStatus = 'fulfilled'
+    });
+    builder.addCase(fetchUserProfile.rejected, (state, { payload }) => {
+      state.meta.fetching = false;
+      state.metaStatus = 'rejected'
+    });
+  },
 });
 
 export const fetchUserProfile = createAsyncThunk<
@@ -120,7 +128,6 @@ export const fetchStatus = createAsyncThunk<
   try {
     const response: any = await profileAPI.getStatus(id);
     dispatch(profileSlice.actions.setStatus(response.data));
-    console.log(response.data);
     return response.data;
   } catch (e: any) {
     return rejectWithValue(e.message);
@@ -136,7 +143,23 @@ export const fetchUpdateStatus = createAsyncThunk<
   async (status, { rejectWithValue, dispatch }) => {
     try {
       const response: any = await profileAPI.updateStatus(status);
-      console.log(response.data);
+      return response.data;
+    } catch (e: any) {
+      return rejectWithValue(e.message);
+    }
+  }
+);
+
+export const fetchUpdatePhoto = createAsyncThunk<
+  File,
+  File,
+  { rejectValue: string }
+  >(
+  "profileReducer/fetchUpdatePhoto",
+  async (photoFile, { rejectWithValue, dispatch }) => {
+    try {
+      const response: any = await profileAPI.savePhoto(photoFile);
+      dispatch(profileSlice.actions.savePhoto(response.data.photos))
       return response.data;
     } catch (e: any) {
       return rejectWithValue(e.message);

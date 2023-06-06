@@ -5,11 +5,15 @@ import avatar from "../../../img/avatar.jpg";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import ProfileReduxForm from "./ProfileDataForm";
 import { TProfile } from "../Profile.types";
+import SvgSelector from "../../../components/svgSelector/SvgSelector";
+import {useBoundActions} from "../../../app/store";
+import {fetchUpdatePhoto, profileActions } from "../ProfileSlice";
 // import { SvgSelector } from "../../../components/SvgSelector/SvgSelector";
 // import ProfileStatusWithHooks from "./ProfileStatusWithHooks.tsx";
 // import ProfileReduxForm from "./ProfileDataForm.tsx";
 
 export type TProfileHeaderProps = {
+  owner: boolean | null,
   profile: TProfile | null;
   status: string;
   newStatus: string;
@@ -19,7 +23,13 @@ export type TProfileHeaderProps = {
   handleProfileEditMode: (edit: boolean) => void;
 };
 
+const allActions = {
+  fetchUpdatePhoto,
+  ...profileActions
+}
+
 const ProfileHeader: React.FC<TProfileHeaderProps> = ({
+  owner,
   profile,
   status,
   newStatus,
@@ -28,21 +38,24 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
   handleChangeStatus,
   handleProfileEditMode,
 }) => {
-  //
-  // const handleChangePhoto = () => {
-  //   changePhoto ? setChangePhoto(false) : setChangePhoto(true);
-  // };
-  // const onMainPhotoSelected = (event: any) => {
-  //   event.target.files.length && props.savePhoto(event.target.files[0]);
-  // };
-  //
+
+
+  const [changePhoto, setChangePhoto] = useState<boolean>(false)
+  const boundActions = useBoundActions(allActions);
+
+  const handleChangePhoto = () => {
+    changePhoto ? setChangePhoto(false) : setChangePhoto(true);
+  };
+  const onMainPhotoSelected = (event: any) => {
+    boundActions.fetchUpdatePhoto(event.target.files[0])
+    // event.target.files.length && boundActions.savePhoto(event.target.files[0]);
+  };
+
   // const onSubmit = (formData: any) => {
   //   setProfileEditMode(false);
   //   props.saveProfile(formData);
   // };
-  // useEffect(() => {
-  //   props.status && props.setStatus(props.status);
-  // }, [props.status]);
+
   return (
     <div className={classes.header}>
       <div className={classes.image}>
@@ -56,8 +69,7 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
             >
               <img
                 src={
-                  profile && profile.photos.small
-                    ? profile.photos.small
+                  profile && profile.photos && profile.photos.small ? profile.photos.small
                     : avatar
                 }
                 alt=""
@@ -74,6 +86,7 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
               <p>{profile && profile.fullName}</p>
             </div>
             <ProfileStatusWithHooks
+              owner={owner}
               profileEditMode={profileEditMode}
               status={status}
               newStatus={newStatus}
@@ -120,19 +133,19 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
                 </div>
               </div>
             </div>
-            {/*{props.owner && (*/}
-            {/*  <div className={classes["change-container"]}>*/}
-            {/*    <input*/}
-            {/*      type="file"*/}
-            {/*      name="file"*/}
-            {/*      className={changePhoto ? classes.change : classes.hide}*/}
-            {/*      onChange={onMainPhotoSelected}*/}
-            {/*    />*/}
-            {/*    <button onClick={handleChangePhoto} className={classes.more}>*/}
-            {/*      /!*<SvgSelector id="more" />*!/*/}
-            {/*    </button>*/}
-            {/*  </div>*/}
-            {/*)}*/}
+            {owner && (
+              <div className={classes["change-container"]}>
+                <input
+                  type="file"
+                  name="file"
+                  className={changePhoto ? classes.change : classes.hide}
+                  onChange={onMainPhotoSelected}
+                />
+                <button onClick={handleChangePhoto} className={classes.more}>
+                  <SvgSelector id="more" />
+                </button>
+              </div>
+            )}
           </div>
           {/*{editMode && <div className="backdrop" onClick={onHideEdit} />}*/}
         </div>

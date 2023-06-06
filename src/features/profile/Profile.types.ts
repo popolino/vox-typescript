@@ -15,7 +15,7 @@ export type TProfile = {
   lookingForAJob: boolean;
   lookingForAJobDescription: string;
   fullName: string;
-  photos: TPhotos;
+  photos: TPhotos ;
 };
 export type TPost = {
   id: number;
@@ -36,12 +36,6 @@ export type TValuesProfileForm = {
   post: string;
 };
 export type TRegistrationFields = {
-  email: string;
-  name: string;
-  surname: string;
-  password: string;
-};
-export type TCreateUserDto = {
   email: string;
   name: string;
   surname: string;

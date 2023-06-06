@@ -1,11 +1,16 @@
 // @ts-ignore
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Profile from "../profile/Profile";
 import Navigation from "./Navigation/Navigation";
 import Users from "../users/Users";
+import { useAppSelector } from "../../app/hooks";
 
 const Router = () => {
+  const isAuth = useAppSelector((state) => state.authReducer.isAuth);
+
+  if (!isAuth) return <Navigate to={"/auth/login"} />;
+
   return (
     <>
       {/*<Header />*/}
