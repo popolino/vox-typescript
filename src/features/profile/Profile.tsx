@@ -13,6 +13,8 @@ import {
   profileActions,
 } from "./ProfileSlice";
 import { fetchAuth } from "../Auth/AuthSlice";
+import { useParams } from "react-router-dom";
+import useClickAway from "../../components/useClickAway/useClickAway";
 
 const allActions = {
   fetchUserProfile,
@@ -27,14 +29,15 @@ const Profile = (props: any) => {
   const profile = useAppSelector((state) => state.profileReducer.profile);
   const status = useAppSelector((state) => state.profileReducer.status);
   const authData = useAppSelector((state) => state.authReducer.authData);
-  const currentId = useAppSelector((state) => state.profileReducer.currentId);
   const metaStatus = useAppSelector((state) => state.authReducer.metaStatus);
   const owner = authData && authData.data.id === profile?.userId;
+
+  const ref = useRef<HTMLDivElement>(null);
 
   const [newStatus, setNewStatus] = useState<string>("");
   const [profileEditMode, setProfileEditMode] = useState<boolean>(false);
 
-  // const handleSetStatus = () => boundActions.setStatus(newStatus);
+  useClickAway(ref, () => setProfileEditMode(false));
   const handleUpdateStatus = () => {
     boundActions.fetchUpdateStatus(newStatus);
   };
@@ -46,22 +49,19 @@ const Profile = (props: any) => {
     setProfileEditMode(edit);
   };
 
-  const prevCountRef = useRef<number | null>(null);
-  useEffect(() => {
-    prevCountRef.current = currentId;
-    console.log(currentId);
-    console.log(prevCountRef);
-  }, [currentId]);
+  const currentId: string | undefined = useParams().userId;
   useEffect(() => {
     currentId
-      ? boundActions.fetchUserProfile(currentId) &&
-        boundActions.fetchStatus(currentId)
+      ? boundActions.fetchUserProfile(Number(currentId)) &&
+        boundActions.fetchStatus(Number(currentId))
       : authData &&
         boundActions.fetchUserProfile(authData.data.id) &&
         boundActions.fetchStatus(authData.data.id);
-  }, [metaStatus]);
+  }, [currentId, authData]);
 
-  if (metaStatus !== "fulfilled") return <div>loading...</div>;
+  // if (metaStatus !== "fulfilled") return <div>loading...</div>;
+  console.log(ref);
+
   return (
     <div className={classes.container}>
       {/*<div onClick={handleProfileEditMode}>{status}</div>*/}
@@ -77,6 +77,7 @@ const Profile = (props: any) => {
         </>
       )}
       <ProfileHeader
+        ref={ref}
         status={status}
         newStatus={newStatus}
         profileEditMode={profileEditMode}

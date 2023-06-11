@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import classes from "./ProfileHeader.module.scss";
 import header from "../../../img/image 4.png";
 import avatar from "../../../img/avatar.jpg";
@@ -6,14 +6,17 @@ import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import ProfileReduxForm from "./ProfileDataForm";
 import { TProfile } from "../Profile.types";
 import SvgSelector from "../../../components/svgSelector/SvgSelector";
-import {useBoundActions} from "../../../app/store";
-import {fetchUpdatePhoto, profileActions } from "../ProfileSlice";
+import { useBoundActions } from "../../../app/store";
+import { fetchUpdatePhoto, profileActions } from "../ProfileSlice";
+import useClickAway from "../../../components/useClickAway/useClickAway";
 // import { SvgSelector } from "../../../components/SvgSelector/SvgSelector";
 // import ProfileStatusWithHooks from "./ProfileStatusWithHooks.tsx";
 // import ProfileReduxForm from "./ProfileDataForm.tsx";
 
 export type TProfileHeaderProps = {
-  owner: boolean | null,
+  ref: React.RefObject<HTMLDivElement>;
+
+  owner: boolean | null;
   profile: TProfile | null;
   status: string;
   newStatus: string;
@@ -25,11 +28,12 @@ export type TProfileHeaderProps = {
 
 const allActions = {
   fetchUpdatePhoto,
-  ...profileActions
-}
+  ...profileActions,
+};
 
 const ProfileHeader: React.FC<TProfileHeaderProps> = ({
   owner,
+  ref,
   profile,
   status,
   newStatus,
@@ -38,16 +42,14 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
   handleChangeStatus,
   handleProfileEditMode,
 }) => {
-
-
-  const [changePhoto, setChangePhoto] = useState<boolean>(false)
+  const [changePhoto, setChangePhoto] = useState<boolean>(false);
   const boundActions = useBoundActions(allActions);
 
   const handleChangePhoto = () => {
     changePhoto ? setChangePhoto(false) : setChangePhoto(true);
   };
   const onMainPhotoSelected = (event: any) => {
-    boundActions.fetchUpdatePhoto(event.target.files[0])
+    boundActions.fetchUpdatePhoto(event.target.files[0]);
     // event.target.files.length && boundActions.savePhoto(event.target.files[0]);
   };
 
@@ -69,7 +71,8 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
             >
               <img
                 src={
-                  profile && profile.photos && profile.photos.small ? profile.photos.small
+                  profile && profile.photos && profile.photos.small
+                    ? profile.photos.small
                     : avatar
                 }
                 alt=""
@@ -86,6 +89,7 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
               <p>{profile && profile.fullName}</p>
             </div>
             <ProfileStatusWithHooks
+              ref={ref}
               owner={owner}
               profileEditMode={profileEditMode}
               status={status}
@@ -95,13 +99,6 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
               handleProfileEditMode={handleProfileEditMode}
               profile={profile}
             />
-            {/*  <ProfileReduxForm*/}
-            {/*    {...props}*/}
-            {/*    onSubmit={onSubmit}*/}
-            {/*    profileEditMode={profileEditMode}*/}
-            {/*    setProfileEditMode={setProfileEditMode}*/}
-            {/*  />*/}
-            {/*</div>*/}
             <div className={classes.online}>
               <p>Last seen 22 minutes ago</p>
             </div>
@@ -147,7 +144,12 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
               </div>
             )}
           </div>
-          {/*{editMode && <div className="backdrop" onClick={onHideEdit} />}*/}
+          {/*{profileEditMode && (*/}
+          {/*  <div*/}
+          {/*    className="backdrop"*/}
+          {/*    onClick={() => handleProfileEditMode(false)}*/}
+          {/*  />*/}
+          {/*)}*/}
         </div>
       </div>
     </div>

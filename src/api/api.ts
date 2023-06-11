@@ -1,6 +1,10 @@
 import axios from "axios";
 import { TProfile, TUser } from "../features/profile/Profile.types";
-import { TAuth, TLogin } from "../features/Auth/Auth.types";
+import {
+  ILoginResponse,
+  TAuth,
+  TLogin,
+} from "../features/Auth/Auth.types";
 
 const instance = axios.create({
   withCredentials: true,
@@ -28,16 +32,14 @@ export const usersAPI = {
 };
 
 export const authAPI = {
-  getAuth() {
-    return instance.get<TAuth>("auth/me");
-  },
+  getAuth: () => instance.get<TAuth>("auth/me"),
   login(
     email: string,
     password: string,
     rememberMe = false,
     captchaUrl = null
   ) {
-    return instance.post<TLogin>(`auth/login`, {
+    return instance.post<ILoginResponse>(`auth/login`, {
       email,
       password,
       rememberMe,

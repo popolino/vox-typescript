@@ -12,3 +12,12 @@ export type TLogin = {
   rememberMe: boolean;
   captchaUrl: string | null;
 };
+export type TBaseResponse = {
+  resultCode: number;
+  messages: string[];
+};
+export interface ILoginResponse extends TBaseResponse {
+  data: {
+    userId: number;
+  };
+}

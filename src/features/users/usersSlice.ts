@@ -5,6 +5,7 @@ import { RootState } from "../../app/store";
 
 export interface IFriendsState {
   users: TUser[];
+  friends: TUser[];
   totalUsersCount: number;
   currentPage: number;
   status: "idle" | "loading" | "failed";
@@ -18,6 +19,7 @@ export interface IFriendsState {
 }
 export const initialState: IFriendsState = {
   users: [],
+  friends: [],
   totalUsersCount: 0,
   currentPage: 1,
   status: "idle",
@@ -38,6 +40,9 @@ export const usersSlice = createSlice({
     },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload;
+    },
+    setFriends: (state, action) => {
+      state.friends = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -111,10 +116,11 @@ export const fetchFriends = createAsyncThunk<
   TUser[],
   void,
   { rejectValue: string }
->("usersReducer/fetchFriends", async (_, { rejectWithValue }) => {
+>("usersReducer/fetchUsers", async (_, { rejectWithValue, dispatch }) => {
   try {
-    const { data } = await usersAPI.getFriends();
-    return data;
+    const response: any = await usersAPI.getFriends();
+    dispatch(usersSlice.actions.setFriends(response.data.items));
+    return response.data.items;
   } catch (e: any) {
     return rejectWithValue(e.message);
   }

@@ -10,6 +10,8 @@ import {
   profileActions,
 } from "../../../profile/ProfileSlice";
 import { useBoundActions } from "../../../../app/store";
+import { TUser } from "../../../users/Users.types";
+import { TProfile } from "../../../profile/Profile.types";
 
 const allActions = {
   fetchUserProfile,
@@ -29,20 +31,28 @@ const AboutProfile = (props: any) => {
 
   const authData = useAppSelector((state) => state.authReducer.authData);
   const profile = useAppSelector((state) => state.profileReducer.profile);
+  const friends = useAppSelector((state) => state.usersReducer.friends);
+
+  const [authUser, setAuthUser] = useState<TProfile | null>(null);
 
   useEffect(() => {
     authData && boundActions.fetchUserProfile(authData.data.id);
-  }, []);
+  }, [authData]);
+  useEffect(() => {
+    if (profile && authData && profile.userId === authData.data.id)
+      setAuthUser(profile);
+  }, [profile, authData]);
+  console.log(authUser);
   if (!profile) return <div>loading...</div>;
   return (
     <div className={classes.profile}>
       <div className="user">
         <div className={`${classes.avatar} sidebar__profile_photo`}>
-          <img src={profile.photos.small} alt="#" />
+          {/*<img src={authUser && authUser.photos.small} alt="#" />*/}
         </div>
         <div className="about-user">
           <NavLink to="/profile">
-            <div className="username">{profile.fullName}</div>
+            <div className="username">{authUser && authUser.fullName}</div>
           </NavLink>
           <div className="unique-name">{`@user${profile.userId}`}</div>
         </div>
@@ -50,7 +60,7 @@ const AboutProfile = (props: any) => {
       <div className={classes.counters}>
         <NavLink to="/friends">
           <div className={classes.counter}>
-            {/*<div className={classes.number}>{props.users.length}</div>*/}
+            <div className={classes.number}>{friends.length}</div>
             <div className={classes.tittle}>Friends</div>
           </div>
         </NavLink>

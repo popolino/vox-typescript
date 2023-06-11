@@ -10,11 +10,15 @@ import { useBoundActions } from "./app/store";
 import { fetchAuth, fetchLogout } from "./features/Auth/AuthSlice";
 import { useAppSelector } from "./app/hooks";
 import { appActions, initializeAppThunk } from "./AppSlice";
+import { fetchFriends } from "./features/users/usersSlice";
+import { profileActions } from "./features/profile/ProfileSlice";
 
 const allActions = {
   fetchAuth,
+  fetchFriends,
   initializeAppThunk,
   ...appActions,
+  ...profileActions,
 };
 
 function App() {
@@ -22,18 +26,26 @@ function App() {
 
   const initialized = useAppSelector((state) => state.appReducer.initialized);
   const authData = useAppSelector((state) => state.authReducer.authData);
+  const friends = useAppSelector((state) => state.usersReducer.friends);
 
+  const setCurrentId = (id: number) => {
+    boundActions.setCurrentUserId(id);
+  };
   useEffect(() => {
     boundActions.initializeAppThunk();
     boundActions.fetchAuth();
+    boundActions.fetchFriends();
   }, []);
-
+  console.log(friends);
   if (!initialized) return <div>error</div>;
   return (
     <HashRouter>
       <Routes>
         <Route path="/auth/*" element={<Auth />} />
-        <Route path="/*" element={<Router />} />
+        <Route
+          path="/*"
+          element={<Router friends={friends} setCurrentId={setCurrentId} />}
+        />
       </Routes>
     </HashRouter>
   );

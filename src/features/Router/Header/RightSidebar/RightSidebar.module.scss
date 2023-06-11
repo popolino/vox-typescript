@@ -1,0 +1,51 @@
+
+.right-sidebar {
+  padding: 2rem 3.8rem 2rem 1rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.notifications {
+  display: inline-flex;
+  padding: 0 3.4rem;
+}
+.svg{
+  stroke: var(--subtext);
+  margin: 0 1.2rem;
+}
+.header-svg{
+  stroke-miterlimit: 10;
+  width: 2.6rem;
+  stroke-width: 21;
+}
+
+.user{
+  height: 100%;
+  justify-content: space-between;
+  display: inline-flex;
+  align-items: center;
+  img{
+    max-width: 4rem;
+  }
+}
+
+.arrow{
+  margin: 0 1rem;
+  font-size: 1.5rem;
+  color: var(--subtext);
+  transform: rotate(90deg)
+}
+
+@media all and (max-width: 480px){
+  .right-sidebar{
+    padding: 2.3rem 1rem 2.3rem 1rem;
+    display: inline-flex;
+    align-items: center;
+  }
+  .notifications{
+    display: inline-flex;
+    padding: 0 2rem 0 0;
+  }
+
+}
+

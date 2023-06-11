@@ -4,7 +4,6 @@ import User from "./User/User";
 import avatar from "../../img/avatar.jpg";
 import * as React from "react";
 import {
-  fetchFriends,
   fetchUsers,
   followToUser,
   unFollowToUser,
@@ -29,7 +28,6 @@ import { profileActions } from "../profile/ProfileSlice";
 //   users: TUser[];
 // };
 const allActions = {
-  fetchFriends,
   fetchUsers,
   followToUser,
   unFollowToUser,

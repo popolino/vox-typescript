@@ -5,6 +5,7 @@ import { TProfileHeaderProps } from "./ProfileHeader";
 interface TStatusProps extends TProfileHeaderProps {}
 
 const ProfileStatusWithHooks: React.FC<TStatusProps> = ({
+  ref,
   status,
   newStatus,
   profileEditMode,
@@ -14,7 +15,7 @@ const ProfileStatusWithHooks: React.FC<TStatusProps> = ({
 }) => {
   const owner = true;
   return (
-    <div>
+    <div ref={ref}>
       {profileEditMode && (
         <div className={classes.edit}>
           <input

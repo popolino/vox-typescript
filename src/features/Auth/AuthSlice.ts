@@ -66,13 +66,14 @@ export const authSlice = createSlice({
   },
 });
 
-export const fetchAuth = createAsyncThunk<TAuth, void, { rejectValue: string }>(
+export const fetchAuth = createAsyncThunk(
   "authReducer/fetchAuth",
   async (_, { rejectWithValue, dispatch }) => {
     try {
-      const response: any = await authAPI.getAuth();
+      const response = await authAPI.getAuth();
       dispatch(authSlice.actions.setAuthData(response.data));
       dispatch(authSlice.actions.setIsAuth(true));
+      // const authUser: any =
       return response.data;
     } catch (e: any) {
       return rejectWithValue(e.message);
@@ -80,15 +81,18 @@ export const fetchAuth = createAsyncThunk<TAuth, void, { rejectValue: string }>(
   }
 );
 
-export const fetchLogin = createAsyncThunk<
-  TLogin,
-  { email: string; password: string; rememberMe: boolean },
-  { rejectValue: string }
->(
+export const fetchLogin = createAsyncThunk(
   "authReducer/fetchLogin",
-  async ({ email, password, rememberMe }, { rejectWithValue, dispatch }) => {
+  async (
+    {
+      email,
+      password,
+      rememberMe,
+    }: { email: string; password: string; rememberMe: boolean },
+    { rejectWithValue, dispatch }
+  ) => {
     try {
-      const response: any = await authAPI.login(email, password, rememberMe);
+      const response = await authAPI.login(email, password, rememberMe);
       console.log(response.data.resultCode);
       if (response.data.resultCode === 0) {
         dispatch(fetchAuth());

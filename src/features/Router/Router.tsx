@@ -5,15 +5,23 @@ import Profile from "../profile/Profile";
 import Navigation from "./Navigation/Navigation";
 import Users from "../users/Users";
 import { useAppSelector } from "../../app/hooks";
+import Header from "./Header/Header";
+import SidebarFriends from "./SidebarFriends/SidebarFriends";
+import { TUser } from "../users/Users.types";
 
-const Router = () => {
+export type TRouterProps = {
+  friends: TUser[];
+  setCurrentId: (id: number) => void;
+};
+
+const Router: React.FC<TRouterProps> = ({ friends, setCurrentId }) => {
   const isAuth = useAppSelector((state) => state.authReducer.isAuth);
 
   if (!isAuth) return <Navigate to={"/auth/login"} />;
 
   return (
     <>
-      {/*<Header />*/}
+      <Header />
       <main>
         <Navigation />
         <div className="container-main">
@@ -24,7 +32,7 @@ const Router = () => {
             <Route path="/users" element={<Users />} />
           </Routes>
         </div>
-        {/*<SidebarFriendsContainer {...props} />*/}
+        <SidebarFriends friends={friends} setCurrentId={setCurrentId} />
       </main>
     </>
   );
