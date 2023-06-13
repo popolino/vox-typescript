@@ -2,8 +2,10 @@ import React from "react";
 import classes from "./RightSidebar.module.scss";
 import avatar from "../../../../img/avatar.jpg";
 import SvgSelector from "../../../../components/svgSelector/SvgSelector";
+import { THeaderProps } from "../Header";
 
-const RightSidebar = () => {
+const RightSidebar: React.FC<THeaderProps> = ({ authUser }) => {
+  console.log(authUser);
   return (
     <div className={classes["right-sidebar"]}>
       <div className={classes.notifications}>
@@ -16,7 +18,10 @@ const RightSidebar = () => {
       </div>
       <div className={classes.user}>
         <div className="sidebar__profile_photo">
-          <img src={avatar} alt="" />
+          <img
+            src={authUser && authUser.photos ? authUser?.photos.small : avatar}
+            alt=""
+          />
         </div>
         <div className={classes.arrow}>❱</div>
       </div>

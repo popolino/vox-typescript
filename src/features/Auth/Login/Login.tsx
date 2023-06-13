@@ -2,7 +2,6 @@ import React from "react";
 import classes from "../Auth.module.scss";
 import { Navigate } from "react-router";
 import LoginReduxForm from "./LoginForm";
-import Test from "./Test";
 
 const Login = (props: any) => {
   type TFormData = {
@@ -12,7 +11,6 @@ const Login = (props: any) => {
   };
 
   const onSubmit = (formData: any) => {
-    console.log(formData);
     // props.loginThunk(
     //   formData.email,
     //   formData.password,
@@ -32,8 +30,6 @@ const Login = (props: any) => {
       <div className={classes.body}>
         <div className={classes.phrase}>
           <h2>Please enter your details</h2>
-          {/*<LoginReduxForm onSubmit={onSubmit} />*/}
-          <Test />
           <a href="#">Forget password?</a>
         </div>
         <p className={classes.separator}>or</p>

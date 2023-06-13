@@ -16,12 +16,13 @@ export type TRouterProps = {
 
 const Router: React.FC<TRouterProps> = ({ friends, setCurrentId }) => {
   const isAuth = useAppSelector((state) => state.authReducer.isAuth);
+  const authUser = useAppSelector((state) => state.profileReducer.authUser);
 
   if (!isAuth) return <Navigate to={"/auth/login"} />;
 
   return (
     <>
-      <Header />
+      <Header authUser={authUser} />
       <main>
         <Navigation />
         <div className="container-main">

@@ -35,8 +35,6 @@ const Auth = () => {
       rememberMe: rememberMe,
     });
   };
-  useEffect(() => console.log(isAuth), [isAuth]);
-  console.log(isAuth);
   if (isAuth) {
     return <Navigate to={"/profile"} />;
   }

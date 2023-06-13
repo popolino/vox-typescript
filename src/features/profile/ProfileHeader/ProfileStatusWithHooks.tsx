@@ -1,11 +1,11 @@
 import classes from "./ProfileHeader.module.scss";
-import React from "react";
+import React, { useRef } from "react";
 import { TProfileHeaderProps } from "./ProfileHeader";
+import useClickAway from "../../../components/useClickAway/useClickAway";
 
 interface TStatusProps extends TProfileHeaderProps {}
 
 const ProfileStatusWithHooks: React.FC<TStatusProps> = ({
-  ref,
   status,
   newStatus,
   profileEditMode,
@@ -13,6 +13,8 @@ const ProfileStatusWithHooks: React.FC<TStatusProps> = ({
   handleChangeStatus,
   handleProfileEditMode,
 }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  useClickAway(ref, () => handleProfileEditMode(false));
   const owner = true;
   return (
     <div ref={ref}>

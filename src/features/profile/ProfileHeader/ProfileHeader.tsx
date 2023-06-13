@@ -3,19 +3,12 @@ import classes from "./ProfileHeader.module.scss";
 import header from "../../../img/image 4.png";
 import avatar from "../../../img/avatar.jpg";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
-import ProfileReduxForm from "./ProfileDataForm";
 import { TProfile } from "../Profile.types";
 import SvgSelector from "../../../components/svgSelector/SvgSelector";
 import { useBoundActions } from "../../../app/store";
 import { fetchUpdatePhoto, profileActions } from "../ProfileSlice";
-import useClickAway from "../../../components/useClickAway/useClickAway";
-// import { SvgSelector } from "../../../components/SvgSelector/SvgSelector";
-// import ProfileStatusWithHooks from "./ProfileStatusWithHooks.tsx";
-// import ProfileReduxForm from "./ProfileDataForm.tsx";
 
 export type TProfileHeaderProps = {
-  ref: React.RefObject<HTMLDivElement>;
-
   owner: boolean | null;
   profile: TProfile | null;
   status: string;
@@ -33,7 +26,6 @@ const allActions = {
 
 const ProfileHeader: React.FC<TProfileHeaderProps> = ({
   owner,
-  ref,
   profile,
   status,
   newStatus,
@@ -48,6 +40,7 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
   const handleChangePhoto = () => {
     changePhoto ? setChangePhoto(false) : setChangePhoto(true);
   };
+
   const onMainPhotoSelected = (event: any) => {
     boundActions.fetchUpdatePhoto(event.target.files[0]);
     // event.target.files.length && boundActions.savePhoto(event.target.files[0]);
@@ -57,7 +50,6 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
   //   setProfileEditMode(false);
   //   props.saveProfile(formData);
   // };
-
   return (
     <div className={classes.header}>
       <div className={classes.image}>
@@ -89,7 +81,6 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
               <p>{profile && profile.fullName}</p>
             </div>
             <ProfileStatusWithHooks
-              ref={ref}
               owner={owner}
               profileEditMode={profileEditMode}
               status={status}
@@ -144,12 +135,6 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
               </div>
             )}
           </div>
-          {/*{profileEditMode && (*/}
-          {/*  <div*/}
-          {/*    className="backdrop"*/}
-          {/*    onClick={() => handleProfileEditMode(false)}*/}
-          {/*  />*/}
-          {/*)}*/}
         </div>
       </div>
     </div>

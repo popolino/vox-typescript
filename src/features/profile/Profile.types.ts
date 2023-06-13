@@ -15,7 +15,7 @@ export type TProfile = {
   lookingForAJob: boolean;
   lookingForAJobDescription: string;
   fullName: string;
-  photos: TPhotos ;
+  photos: TPhotos;
 };
 export type TPost = {
   id: number;
@@ -23,15 +23,12 @@ export type TPost = {
   avatar: string;
   online: string;
   postComment: string;
-  postPic: string;
+  postPic: File | null | string;
   likes: number;
   comments: number;
   reposts: number;
 };
-export type TNewPost = {
-  online: string;
-  postComment: string;
-};
+
 export type TValuesProfileForm = {
   post: string;
 };

@@ -57,6 +57,32 @@ export const usersSlice = createSlice({
     builder.addCase(fetchUsers.rejected, (state, { payload }) => {
       state.meta.fetching = false;
     });
+    // FOLLOW
+    builder.addCase(followToUser.pending, (state) => {
+      state.meta.fetching = true;
+    });
+    builder.addCase(followToUser.fulfilled, (state, { payload }) => {
+      state.users = state.users.map((user) =>
+        user.id === payload ? { ...user, followed: true } : user
+      );
+      state.meta.fetching = false;
+    });
+    builder.addCase(followToUser.rejected, (state, { payload }) => {
+      state.meta.fetching = false;
+    });
+    // UNFOLLOW
+    builder.addCase(unFollowToUser.pending, (state) => {
+      state.meta.fetching = true;
+    });
+    builder.addCase(unFollowToUser.fulfilled, (state, { payload }) => {
+      state.users = state.users.map((user) =>
+        user.id === payload ? { ...user, followed: false } : user
+      );
+      state.meta.fetching = false;
+    });
+    builder.addCase(unFollowToUser.rejected, (state, { payload }) => {
+      state.meta.fetching = false;
+    });
     // MATCHER
     // builder.addMatcher(isPendingAction, (state) => {
     //   state.status = "loading";
@@ -93,7 +119,7 @@ export const followToUser = createAsyncThunk(
   "usersReducer/followToUser",
   async (id: number, { rejectWithValue }) => {
     try {
-      const { data } = await usersAPI.postFollowUser(id);
+      await usersAPI.postFollowUser(id);
       return id;
     } catch (e: any) {
       return rejectWithValue(e.message);

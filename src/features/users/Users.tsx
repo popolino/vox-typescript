@@ -16,17 +16,6 @@ import { useBoundActions } from "../../app/store";
 import Paginator from "../../components/Paginator/Paginator";
 import { profileActions } from "../profile/ProfileSlice";
 
-// type TProps = {
-//   totalUsersCount: number;
-//   pageCount: number;
-//   currentPage: number;
-//   onPageChanged: (page: number) => void;
-//   setPreviousPage: () => void;
-//   selectCurrentPage: (page: number) => void;
-//   setNextPage: () => void;
-//   onPageCountChanged: (event: any) => void;
-//   users: TUser[];
-// };
 const allActions = {
   fetchUsers,
   followToUser,
@@ -35,16 +24,15 @@ const allActions = {
   ...profileActions,
 };
 
-const Users = (props: any) => {
+const Users = () => {
+  const boundActions = useBoundActions(allActions);
+
   const users = useAppSelector((state) => state.usersReducer.users);
   const totalUsersCount = useAppSelector(
     (state) => state.usersReducer.totalUsersCount
   );
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageCount, setPageCount] = useState<number>(5);
-
-  const boundActions = useBoundActions(allActions);
-  const { enqueueSnackbar } = useSnackbar();
 
   const setCurrentId = (id: number) => {
     boundActions.setCurrentUserId(id);

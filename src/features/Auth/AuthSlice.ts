@@ -93,7 +93,6 @@ export const fetchLogin = createAsyncThunk(
   ) => {
     try {
       const response = await authAPI.login(email, password, rememberMe);
-      console.log(response.data.resultCode);
       if (response.data.resultCode === 0) {
         dispatch(fetchAuth());
       }

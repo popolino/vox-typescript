@@ -36,7 +36,6 @@ function App() {
     boundActions.fetchAuth();
     boundActions.fetchFriends();
   }, []);
-  console.log(friends);
   if (!initialized) return <div>error</div>;
   return (
     <HashRouter>

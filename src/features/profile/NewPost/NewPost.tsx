@@ -1,28 +1,94 @@
 import React, { useRef, useState } from "react";
 import useClickAway from "../../../components/useClickAway/useClickAway";
-import PostReduxForm from "./NewPostForm";
-import { TValuesProfileForm } from "../Profile.types";
+import { TProfile, TValuesProfileForm } from "../Profile.types";
+import { useBoundActions } from "../../../app/store";
+import {
+  fetchStatus,
+  fetchUpdateStatus,
+  fetchUserProfile,
+  profileActions,
+} from "../ProfileSlice";
+import { fetchAuth } from "../../Auth/AuthSlice";
+import classes from "./NewPost.module.scss";
+import avatar from "../../../img/avatar.jpg";
+import { Field } from "redux-form";
+import { FormsControls } from "../../../components/FormsControls/FormsControls";
+import SvgSelector from "../../../components/svgSelector/SvgSelector";
+import { useAppSelector } from "../../../app/hooks";
 
-const NewPost = (props: any) => {
+const allActions = {
+  ...profileActions,
+};
+
+type TNewPostProps = {
+  profile: TProfile | null;
+  owner: boolean | null;
+};
+const NewPost: React.FC<TNewPostProps> = ({ profile, owner }) => {
+  const boundActions = useBoundActions(allActions);
+
+  const image = useAppSelector((state) => state.profileReducer.image);
+
+  const [postText, setPostText] = useState<string>("");
   const ref = useRef<HTMLDivElement>(null);
   const [showButton, setShowButton] = useState<boolean>(false);
   useClickAway(ref, () => setShowButton(false));
-  const onAddPost = (values: TValuesProfileForm) => {
-    props.addPost({
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      boundActions.addImagePost(file);
+    }
+  };
+  const onAddPost = () => {
+    boundActions.addPost({
       online: "Just now",
-      postComment: values.post,
+      postComment: postText,
     });
+    setPostText("");
+    setShowButton(false);
   };
   return (
     <>
-      {props.owner && (
+      {owner && (
         <div className="post-container" id="text" ref={ref}>
-          <PostReduxForm
-            onSubmit={onAddPost}
-            {...props}
-            setShowButton={setShowButton}
-            showButton={showButton}
-          />
+          <div className={classes.row}>
+            <div className={`${classes.avatar} sidebar__profile_photo`}>
+              <img
+                src={profile && profile.photos ? profile.photos.small : avatar}
+                alt=""
+              />
+            </div>
+            <div className={classes.textarea}>
+              <textarea
+                placeholder="What’s on your mind?"
+                onClick={() => setShowButton(true)}
+                onChange={(event) => setPostText(event.target.value)}
+                value={postText}
+              />
+            </div>
+          </div>
+          <div className={classes.content}>
+            <div className={classes["content-button"]}>
+              <SvgSelector id="image" />
+              <div className={classes.title}>
+                <input type="file" onChange={handleImageChange} />
+                {/*<p>Image</p>*/}
+              </div>
+            </div>
+            <div className={classes["content-button"]}>
+              <SvgSelector id="music" />
+              <div className={classes.title}>
+                <p>Audio</p>
+              </div>
+            </div>
+            <div className={classes["content-button"]}>
+              <SvgSelector id="videos" />
+              <div className={classes.title}>
+                <p>Video</p>
+              </div>
+            </div>
+          </div>
+          <div>{showButton && <button onClick={onAddPost}>post</button>}</div>
         </div>
       )}
     </>

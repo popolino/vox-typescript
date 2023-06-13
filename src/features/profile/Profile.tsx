@@ -23,21 +23,18 @@ const allActions = {
   fetchAuth,
   ...profileActions,
 };
-const Profile = (props: any) => {
+const Profile = () => {
   const boundActions = useBoundActions(allActions);
 
   const profile = useAppSelector((state) => state.profileReducer.profile);
   const status = useAppSelector((state) => state.profileReducer.status);
   const authData = useAppSelector((state) => state.authReducer.authData);
-  const metaStatus = useAppSelector((state) => state.authReducer.metaStatus);
   const owner = authData && authData.data.id === profile?.userId;
-
-  const ref = useRef<HTMLDivElement>(null);
+  const wallData = useAppSelector((state) => state.profileReducer.wallData);
 
   const [newStatus, setNewStatus] = useState<string>("");
   const [profileEditMode, setProfileEditMode] = useState<boolean>(false);
 
-  useClickAway(ref, () => setProfileEditMode(false));
   const handleUpdateStatus = () => {
     boundActions.fetchUpdateStatus(newStatus);
   };
@@ -58,26 +55,10 @@ const Profile = (props: any) => {
         boundActions.fetchUserProfile(authData.data.id) &&
         boundActions.fetchStatus(authData.data.id);
   }, [currentId, authData]);
-
-  // if (metaStatus !== "fulfilled") return <div>loading...</div>;
-  console.log(ref);
-
+  console.log(profile?.photos);
   return (
     <div className={classes.container}>
-      {/*<div onClick={handleProfileEditMode}>{status}</div>*/}
-      {profileEditMode && (
-        <>
-          <input
-            type="text"
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              handleChangeStatus(event.target.value)
-            }
-          />
-          <button onClick={handleUpdateStatus}>save</button>
-        </>
-      )}
       <ProfileHeader
-        ref={ref}
         status={status}
         newStatus={newStatus}
         profileEditMode={profileEditMode}
@@ -88,7 +69,7 @@ const Profile = (props: any) => {
         owner={owner}
       />
       <NewPost profile={profile} owner={owner} />
-      <Wall {...props} />
+      <Wall profile={profile} wallData={wallData} owner={owner} />
     </div>
   );
 };

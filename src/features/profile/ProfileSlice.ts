@@ -1,16 +1,15 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TPost, TProfile, TRegistrationFields, TUser } from "./Profile.types";
 import { RootState } from "../../app/store";
 import avatar from "../../img/avatar.jpg";
-import me from "../../img/avatar.jpg";
-import cat from "../../img/pp.jpg";
+import cat from "../../img/image 6.png";
+import me from "../../img/pp.jpg";
 import { authAPI, profileAPI, usersAPI } from "../../api/api";
-import { usersSlice } from "../users/usersSlice";
-import { TAuth } from "../Auth/Auth.types";
-import { authSlice } from "../Auth/AuthSlice";
 
 export interface ProfileState {
   currentId: number | null;
+  authUser: TProfile | null;
+  image: File | null;
   status: string;
   input: string;
   edit: boolean;
@@ -18,7 +17,7 @@ export interface ProfileState {
   wallData: TPost[];
   button: boolean;
   profile: TProfile | null;
-  metaStatus: "pending" |  "fulfilled" | 'rejected'
+  metaStatus: "pending" | "fulfilled" | "rejected";
   meta: {
     fetching: boolean;
     creating: boolean;
@@ -29,6 +28,8 @@ export interface ProfileState {
 
 const initialState: ProfileState = {
   currentId: null,
+  authUser: null,
+  image: null,
   status: "",
   input: "",
   edit: false,
@@ -81,24 +82,57 @@ export const profileSlice = createSlice({
     setUserProfile: (state, action) => {
       state.profile = action.payload;
     },
+    setAuthUser: (state, action) => {
+      state.authUser = action.payload;
+    },
     savePhoto: (state, action) => {
       state.profile && (state.profile.photos = action.payload);
-    }
+    },
+    addImagePost: (state, action) => {
+      state.image = action.payload;
+    },
+    addPost: (
+      state,
+      action: PayloadAction<{
+        online: string;
+        postComment: string;
+      }>
+    ) => {
+      state.wallData.unshift({
+        id: state.wallData.length + 1,
+        username: "Polina As Fuck",
+        avatar: avatar,
+        online: action.payload.online,
+        postComment: action.payload.postComment,
+        postPic: state.image,
+        likes: 2,
+        comments: 0,
+        reposts: 3,
+      });
+    },
   },
   extraReducers: (builder) => {
     // FETCH
     builder.addCase(fetchUserProfile.pending, (state) => {
       state.meta.fetching = true;
-      state.metaStatus = 'pending'
     });
     builder.addCase(fetchUserProfile.fulfilled, (state, { payload }) => {
       state.profile = payload;
       state.meta.fetching = false;
-      state.metaStatus = 'fulfilled'
     });
     builder.addCase(fetchUserProfile.rejected, (state, { payload }) => {
       state.meta.fetching = false;
-      state.metaStatus = 'rejected'
+    });
+    // ADD_PHOTO
+    builder.addCase(fetchUpdatePhoto.pending, (state) => {
+      state.meta.fetching = true;
+    });
+    builder.addCase(fetchUpdatePhoto.fulfilled, (state, { payload }) => {
+      if (state.profile) state.profile.photos = payload.data.photos;
+      state.meta.fetching = false;
+    });
+    builder.addCase(fetchUpdatePhoto.rejected, (state, { payload }) => {
+      state.meta.fetching = false;
     });
   },
 });
@@ -151,15 +185,15 @@ export const fetchUpdateStatus = createAsyncThunk<
 );
 
 export const fetchUpdatePhoto = createAsyncThunk<
-  File,
+  { data: { photos: { small: string; large: string } } },
   File,
   { rejectValue: string }
-  >(
+>(
   "profileReducer/fetchUpdatePhoto",
   async (photoFile, { rejectWithValue, dispatch }) => {
     try {
       const response: any = await profileAPI.savePhoto(photoFile);
-      dispatch(profileSlice.actions.savePhoto(response.data.photos))
+      dispatch(profileSlice.actions.savePhoto(response.data.photos));
       return response.data;
     } catch (e: any) {
       return rejectWithValue(e.message);
