@@ -8,7 +8,7 @@ import { useBoundActions } from "../../app/store";
 import { useSnackbar } from "notistack";
 import { fetchUserProfile, profileActions } from "../profile/ProfileSlice";
 import { authActions, fetchAuth, fetchLogin } from "./AuthSlice";
-import Login from "./Registration/Login";
+import Login from "./Login/Login";
 
 const allActions = {
   fetchAuth,

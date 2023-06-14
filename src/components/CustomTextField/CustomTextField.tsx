@@ -32,7 +32,9 @@ const CustomTextField: React.FC<TCustomTextFieldProps> = ({
     <div className={classes.wrapper}>
       <div className={className}>
         {type === "input" ? (
+          // <TextField label="Username" variant="standard" />
           <TextField
+            variant="standard"
             label={label}
             className={clsx({ "input-error": error, input: !error })}
             error
@@ -43,16 +45,30 @@ const CustomTextField: React.FC<TCustomTextFieldProps> = ({
             multiline={false}
           />
         ) : (
-          <FormControl
+          <TextField
+            label={label}
             className={clsx({ "input-error": error, input: !error })}
+            type="password"
+            variant="standard"
+            error
             onChange={onChange}
             onBlur={onBlur}
-            error
-            focused={false}
-          >
-            <InputLabel>Password</InputLabel>
-            <OutlinedInput value={value} type="password" label="Password" />
-          </FormControl>
+            value={value}
+            autoFocus={false}
+            multiline={false}
+          />
+
+          // <FormControl
+          //   className={clsx({ "input-error": error, input: !error })}
+          //   variant="standard"
+          //   onChange={onChange}
+          //   onBlur={onBlur}
+          //   error
+          //   focused={false}
+          // >
+          //   <InputLabel>Password</InputLabel>
+          //   <OutlinedInput value={value} type="password" label="Password" />
+          // </FormControl>
         )}
         {message && (
           <div className={classes["helper-text"]}>

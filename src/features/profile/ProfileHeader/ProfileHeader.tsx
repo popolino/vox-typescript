@@ -77,8 +77,13 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
         </div>
         <div className={classes["about-user"]}>
           <div className={classes["about-user__content"]}>
-            <div className={classes.username}>
-              <p>{profile && profile.fullName}</p>
+            <div className={classes["fullname_online"]}>
+              <div className={classes.username}>
+                <p>{profile && profile.fullName}</p>
+              </div>
+              <div className={classes.online}>
+                <p>Last seen 22 minutes ago</p>
+              </div>
             </div>
             <ProfileStatusWithHooks
               owner={owner}
@@ -90,9 +95,6 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
               handleProfileEditMode={handleProfileEditMode}
               profile={profile}
             />
-            <div className={classes.online}>
-              <p>Last seen 22 minutes ago</p>
-            </div>
           </div>
           <div className={classes["user-data"]}>
             <div className={classes.counters}>
