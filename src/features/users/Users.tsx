@@ -44,12 +44,6 @@ const Users = () => {
   const handleUnFollowToUser = (id: number) => {
     boundActions.unFollowToUser(id);
   };
-  const setPreviousPage = () => {
-    setCurrentPage(currentPage - 1);
-  };
-  const setNextPage = () => {
-    setCurrentPage(currentPage + 1);
-  };
   const onPageChanged = (page: number) => {
     boundActions.setCurrentPage(page);
     boundActions.fetchUsers({ currentPage: page, pageCount: pageCount });
@@ -72,8 +66,8 @@ const Users = () => {
         totalUsersCount={totalUsersCount}
         pageCount={pageCount}
         currentPage={currentPage}
-        setPreviousPage={setPreviousPage}
-        setNextPage={setNextPage}
+        setPreviousPage={(page: number) => onPageChanged(page - 1)}
+        setNextPage={(page: number) => onPageChanged(page + 1)}
         onPageChanged={onPageChanged}
         selectCurrentPage={selectCurrentPage}
         onPageCountChanged={onPageCountChanged}

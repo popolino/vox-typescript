@@ -4,6 +4,7 @@ import Profile from "./features/profile/Profile";
 import { Routes, Route, HashRouter, Navigate } from "react-router-dom";
 import "./App.scss";
 import "./reset.css";
+import "../src/assets/overriders.scss";
 import Router from "./features/Router/Router";
 import Auth from "./features/Auth/Auth";
 import { useBoundActions } from "./app/store";

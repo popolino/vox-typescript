@@ -57,6 +57,7 @@ const Login: React.FC<TLoginProps> = ({ handleFetchLogin }) => {
                 fieldState: { error },
               }) => (
                 <CustomTextField
+                  className="input"
                   label="Email"
                   type="input"
                   error={!!error}

@@ -7,9 +7,9 @@ type TProps = {
   pageCount: number;
   currentPage: number;
   onPageChanged: (page: number) => void;
-  setPreviousPage: () => void;
+  setPreviousPage: (page: number) => void;
   selectCurrentPage: (page: number) => void;
-  setNextPage: () => void;
+  setNextPage: (page: number) => void;
   onPageCountChanged: (event: any) => void;
 };
 
@@ -38,7 +38,7 @@ const Paginator: React.FC<TProps> = ({
           disabled={currentPage === 1}
           onClick={() => {
             onPageChanged(currentPage);
-            setPreviousPage();
+            setPreviousPage(currentPage);
           }}
         >
           ❮
@@ -83,7 +83,7 @@ const Paginator: React.FC<TProps> = ({
         <button
           onClick={() => {
             onPageChanged(currentPage);
-            setNextPage();
+            setNextPage(currentPage);
           }}
           disabled={currentPage === pageCountSize}
         >

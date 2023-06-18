@@ -142,7 +142,7 @@ export const fetchFriends = createAsyncThunk<
   TUser[],
   void,
   { rejectValue: string }
->("usersReducer/fetchUsers", async (_, { rejectWithValue, dispatch }) => {
+>("usersReducer/fetchFriends", async (_, { rejectWithValue, dispatch }) => {
   try {
     const response: any = await usersAPI.getFriends();
     dispatch(usersSlice.actions.setFriends(response.data.items));

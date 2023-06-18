@@ -63,12 +63,19 @@
   //margin-bottom: 6rem;
   padding: 6rem 0;
 }
+
+
+
 .body {
   display: inherit;
   flex-direction: inherit;
   align-items: center;
   justify-content: space-between;
   height: 100%;
+  &> form{
+  width: 100%;
+    padding: 0 4rem;
+}
 }
 
 .phrase {
