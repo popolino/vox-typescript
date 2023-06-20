@@ -1,8 +1,10 @@
 export type TAuth = {
+  resultCode: number;
   data: {
     id: number;
     email: string;
     login: string;
+    captchaURL?: string;
   };
 };
 

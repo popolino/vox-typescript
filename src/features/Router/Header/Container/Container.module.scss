@@ -7,39 +7,19 @@
 }
 
 .tittle {
+  text-transform: capitalize;
   font-weight: 700;
   font-size: 2.2rem;
   color: var(--subtext-dark);
   padding: 0 7rem;
 }
 
-.search {
-  max-width: 42rem;
-  width: 100%;
-  padding: 1.4rem 3rem;
-  background-color: var(--background);
-  border-radius: 1.5rem;
-  display: inline-flex;
-  align-items: center;
-}
+
 .search-svg{
   stroke-miterlimit: 10;
   width: 2rem;
 }
 
-.search-input {
-  background-color: transparent;
-  font-weight: 600;
-  font-size: 1.7rem;
-  width: 100%;
-  color: var(--subtext);
-
-}
-.search-input::placeholder{
-  color: var(--subtext);
-  font-size: 1.6rem;
-  font-weight: 600;
-}
 
 .svg{
   margin: 0 1rem 0 0;
@@ -47,14 +27,7 @@
   align-items: center;
 }
 @media all and (max-width: 480px){
-  .search {
-    width: 2rem;
-    padding: 1rem 3rem;
-    background-color: transparent;
-  }
-  .search-input{
-    display: none;
-  }
+
   .search-svg{
     width: 2.45rem;
     stroke-width: 0.7;

@@ -2,8 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import avatar from "../../img/avatar.jpg";
 import me from "../../img/avatar.jpg";
 import cat from "../../img/pp.jpg";
-import { authSlice } from "./features/Auth/AuthSlice";
+import { authSlice, fetchAuth } from "./features/Auth/AuthSlice";
 import { TUser } from "./features/users/Users.types";
+import { fetchFriends } from "./features/users/usersSlice";
 
 export interface ProfileState {
   initialized: boolean;
@@ -49,8 +50,9 @@ export const appSlice = createSlice({
 });
 
 export const initializeAppThunk = () => (dispatch: any) => {
-  let promise = dispatch(authSlice.actions.setIsAuth(true));
-  Promise.all([promise]).then(() => {
+  let promise = dispatch(fetchAuth());
+  let promise2 = dispatch(fetchFriends());
+  Promise.all([promise, promise2]).then(() => {
     dispatch(appSlice.actions.setInitialized(true));
   });
 };

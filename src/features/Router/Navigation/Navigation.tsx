@@ -6,21 +6,11 @@ import { useBoundActions } from "../../../app/store";
 import { fetchAuth, fetchLogout } from "../../Auth/AuthSlice";
 import { useAppSelector } from "../../../app/hooks";
 
-const allActions = {
-  fetchAuth,
-  fetchLogout,
-};
-
-const Navigation = (props: any) => {
-  const boundActions = useBoundActions(allActions);
-
-  const onLogout = () => {
-    boundActions.fetchLogout();
-  };
+const Navigation = () => {
   return (
     <nav className={classes.sidebar}>
       <AboutProfile />
-      <NavList onLogout={onLogout} />
+      <NavList />
     </nav>
   );
 };

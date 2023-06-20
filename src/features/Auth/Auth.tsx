@@ -7,34 +7,38 @@ import { useAppSelector } from "../../app/hooks";
 import { useBoundActions } from "../../app/store";
 import { useSnackbar } from "notistack";
 import { fetchUserProfile, profileActions } from "../profile/ProfileSlice";
-import { authActions, fetchAuth, fetchLogin } from "./AuthSlice";
+import { authActions, fetchAuth, fetchCaptcha, fetchLogin } from "./AuthSlice";
 import Login from "./Login/Login";
 
 const allActions = {
   fetchAuth,
   fetchLogin,
+  fetchCaptcha,
 
   ...authActions,
 };
 
 const Auth = () => {
   const boundActions = useBoundActions(allActions);
-  const { enqueueSnackbar } = useSnackbar();
 
   const isAuth = useAppSelector((state) => state.authReducer.isAuth);
   const authData = useAppSelector((state) => state.authReducer.authData);
+  const captchaURL = useAppSelector((state) => state.authReducer.captchaURL);
 
   const handleFetchLogin = (
     email: string,
     password: string,
-    rememberMe: boolean
+    rememberMe: boolean,
+    captcha?: string | null
   ) => {
     boundActions.fetchLogin({
       email: email,
       password: password,
       rememberMe: rememberMe,
+      captcha: captcha,
     });
   };
+
   if (isAuth) {
     return <Navigate to={"/profile"} />;
   }
@@ -50,13 +54,21 @@ const Auth = () => {
               <Route
                 path="/login"
                 element={
-                  <Login isAuth={isAuth} handleFetchLogin={handleFetchLogin} />
+                  <Login
+                    isAuth={isAuth}
+                    captchaURL={captchaURL}
+                    handleFetchLogin={handleFetchLogin}
+                  />
                 }
               />
               <Route
                 path="/"
                 element={
-                  <Login isAuth={isAuth} handleFetchLogin={handleFetchLogin} />
+                  <Login
+                    isAuth={isAuth}
+                    handleFetchLogin={handleFetchLogin}
+                    captchaURL={captchaURL}
+                  />
                 }
               />
               <Route path="/registration" element={<Registration />} />

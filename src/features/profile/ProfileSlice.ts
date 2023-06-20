@@ -10,6 +10,7 @@ export interface ProfileState {
   currentId: number | null;
   authUser: TProfile | null;
   image: File | null;
+  imagePost: File | null;
   status: string;
   input: string;
   edit: boolean;
@@ -30,6 +31,7 @@ const initialState: ProfileState = {
   currentId: null,
   authUser: null,
   image: null,
+  imagePost: null,
   status: "",
   input: "",
   edit: false,
@@ -42,7 +44,7 @@ const initialState: ProfileState = {
       online: "25 minutes ago",
       postComment: "I need to find a job to provide for a man...",
       postPic: me,
-      likes: 2,
+      likes: 5,
       comments: 0,
       reposts: 3,
     },
@@ -90,6 +92,10 @@ export const profileSlice = createSlice({
     },
     addImagePost: (state, action) => {
       state.image = action.payload;
+      state.imagePost = state.image;
+    },
+    cleanImagePost: (state, payload) => {
+      state.image = null;
     },
     addPost: (
       state,
@@ -105,9 +111,9 @@ export const profileSlice = createSlice({
         online: action.payload.online,
         postComment: action.payload.postComment,
         postPic: state.image,
-        likes: 2,
+        likes: 0,
         comments: 0,
-        reposts: 3,
+        reposts: 0,
       });
     },
   },
@@ -132,6 +138,28 @@ export const profileSlice = createSlice({
       state.meta.fetching = false;
     });
     builder.addCase(fetchUpdatePhoto.rejected, (state, { payload }) => {
+      state.meta.fetching = false;
+    });
+    // UPDATE_STATUS
+    builder.addCase(fetchUpdateStatus.pending, (state) => {
+      state.meta.fetching = true;
+    });
+    builder.addCase(fetchUpdateStatus.fulfilled, (state, { payload }) => {
+      state.status = payload;
+      state.meta.fetching = false;
+    });
+    builder.addCase(fetchUpdateStatus.rejected, (state, { payload }) => {
+      state.meta.fetching = false;
+    });
+    // EDIT_PROFILE
+    builder.addCase(fetchEditProfile.pending, (state) => {
+      state.meta.fetching = true;
+    });
+    builder.addCase(fetchEditProfile.fulfilled, (state, { payload }) => {
+      state.meta.fetching = false;
+      state.profile = { ...state.profile, ...payload };
+    });
+    builder.addCase(fetchEditProfile.rejected, (state, { payload }) => {
       state.meta.fetching = false;
     });
   },
@@ -176,8 +204,8 @@ export const fetchUpdateStatus = createAsyncThunk<
   "profileReducer/fetchUpdateStatus",
   async (status, { rejectWithValue, dispatch }) => {
     try {
-      const response: any = await profileAPI.updateStatus(status);
-      return response.data;
+      await profileAPI.updateStatus(status);
+      return status;
     } catch (e: any) {
       return rejectWithValue(e.message);
     }
@@ -195,6 +223,26 @@ export const fetchUpdatePhoto = createAsyncThunk<
       const response: any = await profileAPI.savePhoto(photoFile);
       dispatch(profileSlice.actions.savePhoto(response.data.photos));
       return response.data;
+    } catch (e: any) {
+      return rejectWithValue(e.message);
+    }
+  }
+);
+export const fetchEditProfile = createAsyncThunk<
+  TProfile,
+  {
+    aboutMe: string;
+    lookingForAJobDescription: string;
+    lookingForAJob: boolean;
+    fullName: string;
+  },
+  { rejectValue: string }
+>(
+  "profileReducer/fetchEditProfile",
+  async (profile, { rejectWithValue, dispatch }) => {
+    try {
+      await profileAPI.saveProfile(profile);
+      return profile;
     } catch (e: any) {
       return rejectWithValue(e.message);
     }

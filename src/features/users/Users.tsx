@@ -15,6 +15,8 @@ import { useEffect, useState } from "react";
 import { useBoundActions } from "../../app/store";
 import Paginator from "../../components/Paginator/Paginator";
 import { profileActions } from "../profile/ProfileSlice";
+import { IconButton } from "@mui/material";
+import SvgSelector from "../../components/svgSelector/SvgSelector";
 
 const allActions = {
   fetchUsers,
@@ -28,11 +30,12 @@ const Users = () => {
   const boundActions = useBoundActions(allActions);
 
   const users = useAppSelector((state) => state.usersReducer.users);
+  const currentPage = useAppSelector((state) => state.usersReducer.currentPage);
   const totalUsersCount = useAppSelector(
     (state) => state.usersReducer.totalUsersCount
   );
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageCount, setPageCount] = useState<number>(5);
+  const [pageCount, setPageCount] = useState<number>(10);
+  const [paginationMode, setPaginationMode] = useState<boolean>(false);
 
   const setCurrentId = (id: number) => {
     boundActions.setCurrentUserId(id);
@@ -49,7 +52,7 @@ const Users = () => {
     boundActions.fetchUsers({ currentPage: page, pageCount: pageCount });
   };
   const selectCurrentPage = (page: number) => {
-    setCurrentPage(page);
+    boundActions.setCurrentPage(page);
   };
   const onPageCountChanged = (count: number) => {
     setPageCount(count);
@@ -62,16 +65,27 @@ const Users = () => {
 
   return (
     <>
-      <Paginator
-        totalUsersCount={totalUsersCount}
-        pageCount={pageCount}
-        currentPage={currentPage}
-        setPreviousPage={(page: number) => onPageChanged(page - 1)}
-        setNextPage={(page: number) => onPageChanged(page + 1)}
-        onPageChanged={onPageChanged}
-        selectCurrentPage={selectCurrentPage}
-        onPageCountChanged={onPageCountChanged}
-      />
+      {!paginationMode && (
+        <IconButton
+          size="large"
+          className={classes.arrow}
+          onClick={() => setPaginationMode(true)}
+        >
+          <SvgSelector id="arrow" />
+        </IconButton>
+      )}
+      {paginationMode && (
+        <Paginator
+          paginationMode={paginationMode}
+          setPaginationMode={setPaginationMode}
+          totalUsersCount={totalUsersCount}
+          pageCount={pageCount}
+          currentPage={currentPage}
+          onPageChanged={onPageChanged}
+          selectCurrentPage={selectCurrentPage}
+          onPageCountChanged={onPageCountChanged}
+        />
+      )}
       <div className={classes.friends}>
         <div className={classes.container}>
           {users.map((user) => (

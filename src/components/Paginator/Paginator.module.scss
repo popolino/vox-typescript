@@ -1,18 +1,16 @@
 .pagination{
+  box-shadow: 0 0  3rem rgba(0, 0, 0, 0.15);
   position: absolute;
   z-index: 1;
-  bottom: 5rem;
-  right: 20%;
+  bottom: 3rem;
+  right: 40%;
   background: var(--opacity_background);
-  width: 40rem;
-  height: 11rem;
   border-radius: 2.4rem;
-  padding: 2rem 3rem;
+  padding: 1.5rem 3rem 2rem;
   display: flex;
-  justify-content: center;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
   backdrop-filter: blur(2px);
   .top-panel{
     display: flex;
@@ -46,6 +44,7 @@
     width: 100%;
     display: flex;
     gap: 2rem;
+
     align-items: center;
     & > p{
       font-size: 1.6rem;
@@ -53,13 +52,9 @@
       font-weight: 600;
     }
     select{
-      width: 6rem;
-      border-radius: 2rem;
-      height: 3rem;
-      border: 1px solid var(--border);
       font-size: 1.3rem;
       color: var(--subtext);
-      padding-left: 1rem;
+      background-color: transparent;
     }
     option{
       font-size: inherit;
@@ -68,4 +63,12 @@
       margin: 0.5rem 0;
     }
   }
+}
+.close{
+    background-color: transparent;
+  transform: translateX(16rem);
+    & > svg{
+      width: 3rem;
+    }
+
 }

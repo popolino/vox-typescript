@@ -14,14 +14,14 @@ type TWallProps = {
 };
 
 const Wall: React.FC<TWallProps> = ({ profile, owner, wallData }) => {
-  const image = useAppSelector((state) => state.profileReducer.image);
+  const imagePost = useAppSelector((state) => state.profileReducer.imagePost);
   return (
     <>
       {owner && (
         <div className="post-container">
           {wallData.map((item) => (
             <Post
-              image={image}
+              imagePost={imagePost}
               key={item.id}
               avatar={item.avatar}
               online={item.online}

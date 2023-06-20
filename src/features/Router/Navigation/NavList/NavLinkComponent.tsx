@@ -7,17 +7,14 @@ type TNavLinkComponentProps = {
   path: string;
   id: string;
   section: string;
-  onLogout?: () => void;
 };
 
 export const NavLinkComponent: React.FC<TNavLinkComponentProps> = ({
   path,
   id,
   section,
-  onLogout,
 }) => (
   <NavLink
-    onClick={onLogout}
     to={path}
     className={(navData) =>
       navData.isActive ? `${classes.active} ${classes.link}` : classes.link

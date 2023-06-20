@@ -13,8 +13,8 @@ type TCustomTextFieldProps = {
   label: string;
   type: "input" | "password";
   message?: string;
-  error: boolean;
-  value: string;
+  error?: boolean;
+  value?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 };
@@ -36,8 +36,7 @@ const CustomTextField: React.FC<TCustomTextFieldProps> = ({
           <TextField
             variant="standard"
             label={label}
-            className={clsx({ "input-error": error, input: !error })}
-            error
+            error={error}
             onChange={onChange}
             onBlur={onBlur}
             value={value}
@@ -47,28 +46,15 @@ const CustomTextField: React.FC<TCustomTextFieldProps> = ({
         ) : (
           <TextField
             label={label}
-            className={clsx({ "input-error": error, input: !error })}
             type="password"
             variant="standard"
-            error
+            error={error}
             onChange={onChange}
             onBlur={onBlur}
             value={value}
             autoFocus={false}
             multiline={false}
           />
-
-          // <FormControl
-          //   className={clsx({ "input-error": error, input: !error })}
-          //   variant="standard"
-          //   onChange={onChange}
-          //   onBlur={onBlur}
-          //   error
-          //   focused={false}
-          // >
-          //   <InputLabel>Password</InputLabel>
-          //   <OutlinedInput value={value} type="password" label="Password" />
-          // </FormControl>
         )}
         {message && (
           <div className={classes["helper-text"]}>

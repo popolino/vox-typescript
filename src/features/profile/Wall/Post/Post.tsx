@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from "./Post.module.scss";
 import avatar from "../../../../img/avatar.jpg";
 import SvgSelector from "../../../../components/svgSelector/SvgSelector";
@@ -6,6 +6,7 @@ import { TProfile } from "../../Profile.types";
 
 type TPostProps = {
   avatar: string;
+  imagePost: File | null;
   online: string;
   postComment: string;
   postPic: string;
@@ -13,10 +14,10 @@ type TPostProps = {
   comments: number;
   reposts: number;
   profile: TProfile;
-  image: File | null;
 };
 
 const Post: React.FC<TPostProps> = ({
+  imagePost,
   avatar,
   online,
   postComment,
@@ -25,8 +26,14 @@ const Post: React.FC<TPostProps> = ({
   comments,
   reposts,
   profile,
-  image,
 }) => {
+  const [like, setLike] = useState<boolean>(false);
+  const [likeCount, setLikeCount] = useState<number>(likes);
+  const handleSetLike = () => {
+    like ? setLike(false) : setLike(true);
+    !like ? setLikeCount(likes + 1) : setLikeCount(likeCount - 1);
+  };
+
   return (
     <>
       <div className={`${classes["post-information"]} user`}>
@@ -48,17 +55,20 @@ const Post: React.FC<TPostProps> = ({
 
         {postPic && (
           <div className={classes["post-picture"]}>
-            {image && typeof postPic !== "string" ? (
-              <img src={URL.createObjectURL(image)} />
+            {imagePost && typeof postPic !== "string" ? (
+              <img src={URL.createObjectURL(imagePost)} />
             ) : (
               <img src={postPic} alt="" />
             )}
           </div>
         )}
         <div className={classes["post-tooltip"]}>
-          <button>
-            <SvgSelector id="like" />
-            <p>{likes}</p>
+          <button onClick={handleSetLike}>
+            <SvgSelector
+              id="like"
+              className={like ? classes["like-active"] : ""}
+            />
+            <p>{likeCount}</p>
           </button>
           <button>
             <SvgSelector id="comment" />

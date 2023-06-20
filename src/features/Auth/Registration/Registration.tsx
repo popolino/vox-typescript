@@ -10,9 +10,13 @@ const Registration = () => {
         <h1>Create account</h1>
       </div>
       <div className={classes.body}>
-        <TextField label="Username" variant="standard" />
-        <TextField label="Password" variant="standard" />
-        <TextField label="Confirm password" variant="standard" />
+        <TextField label="Username" variant="standard" className="input" />
+        <TextField label="Password" variant="standard" className="input" />
+        <TextField
+          label="Confirm password"
+          variant="standard"
+          className="input"
+        />
         <button className={classes.button}>Sign up</button>
         <p className={classes.separator}>or</p>
         <NavLink to="/auth/login" className={classes.link}>

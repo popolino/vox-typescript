@@ -10,23 +10,31 @@ type TLoginProps = {
   handleFetchLogin: (
     email: string,
     password: string,
-    rememberMe: boolean
+    rememberMe: boolean,
+    captcha?: string | null
   ) => void;
   isAuth: boolean;
+  captchaURL: string | null;
 };
 
-const Login: React.FC<TLoginProps> = ({ handleFetchLogin }) => {
+const Login: React.FC<TLoginProps> = ({ handleFetchLogin, captchaURL }) => {
   type TLoginFields = {
     email: string;
     password: string;
     rememberMe: boolean;
+    captcha?: string;
   };
   const { handleSubmit, control, formState } = useForm<TLoginFields>({
     mode: "all",
-    defaultValues: { email: "", password: "", rememberMe: false },
+    defaultValues: {
+      email: "",
+      password: "",
+      rememberMe: false,
+      captcha: "",
+    },
   });
   const onSubmit: SubmitHandler<TLoginFields> = (data) => {
-    handleFetchLogin(data.email, data.password, data.rememberMe);
+    handleFetchLogin(data.email, data.password, data.rememberMe, data.captcha);
   };
   return (
     <>
@@ -35,8 +43,16 @@ const Login: React.FC<TLoginProps> = ({ handleFetchLogin }) => {
         <p>Please enter your details</p>
       </div>
       <div className={classes.body}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className={clsx("input", classes.form)}>
+        <a className={classes.link} href="#">
+          Forget password?
+        </a>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className={clsx(classes["form-fields"], [
+            captchaURL && classes["form-with-captcha"],
+          ])}
+        >
+          <div className={clsx("input", classes.input)}>
             <Controller
               name="email"
               control={control}
@@ -69,7 +85,7 @@ const Login: React.FC<TLoginProps> = ({ handleFetchLogin }) => {
               )}
             />
           </div>{" "}
-          <div className={clsx("input", classes.form)}>
+          <div className={clsx("input", classes.input)}>
             <Controller
               name="password"
               control={control}
@@ -96,12 +112,12 @@ const Login: React.FC<TLoginProps> = ({ handleFetchLogin }) => {
               )}
             />
           </div>{" "}
-          <div className={classes["remember-container"]}>
+          <div>
             <Controller
               name="rememberMe"
               control={control}
               render={({ field }) => (
-                <div className="checkbox-remember">
+                <div className="remember-checkbox">
                   <FormGroup>
                     <FormControlLabel
                       control={
@@ -116,8 +132,32 @@ const Login: React.FC<TLoginProps> = ({ handleFetchLogin }) => {
                 </div>
               )}
             />
-            <a href="#">Forget password?</a>
           </div>
+          {captchaURL && (
+            <>
+              <img className={classes.captcha} src={captchaURL} alt="" />
+              <div className={clsx("input", classes.input)}>
+                <Controller
+                  name="captcha"
+                  control={control}
+                  render={({
+                    field: { onChange, onBlur, value },
+                    fieldState: { error },
+                  }) => (
+                    <CustomTextField
+                      label="Captcha"
+                      type="input"
+                      error={!!error}
+                      message={error?.message}
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      value={value}
+                    />
+                  )}
+                />
+              </div>
+            </>
+          )}
           <button
             type="submit"
             disabled={!formState.isValid}

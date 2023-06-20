@@ -3,9 +3,19 @@ import classes from "./RightSidebar.module.scss";
 import avatar from "../../../../img/avatar.jpg";
 import SvgSelector from "../../../../components/svgSelector/SvgSelector";
 import { THeaderProps } from "../Header";
+import { IconButton } from "@mui/material";
+import CustomSelect from "../../../../components/CustomSelect/CustomSelect";
+import { TOption } from "../../../../components/CustomSelect/CustomSelect.types";
 
-const RightSidebar: React.FC<THeaderProps> = ({ authUser }) => {
-  console.log(authUser);
+type TRightSidebarProps = {
+  onLogout: () => void;
+};
+
+const categoryOptions: TOption[] = [
+  { value: "support", label: "Support", id: "support" },
+  { value: "logout", label: "Logout", id: "logout" },
+];
+const RightSidebar: React.FC<TRightSidebarProps> = ({ onLogout }) => {
   return (
     <div className={classes["right-sidebar"]}>
       <div className={classes.notifications}>
@@ -16,15 +26,7 @@ const RightSidebar: React.FC<THeaderProps> = ({ authUser }) => {
           <SvgSelector id="bell" className={classes["header-svg"]} />
         </div>
       </div>
-      <div className={classes.user}>
-        <div className="sidebar__profile_photo">
-          <img
-            src={authUser && authUser.photos ? authUser?.photos.small : avatar}
-            alt=""
-          />
-        </div>
-        <div className={classes.arrow}>❱</div>
-      </div>
+      <CustomSelect onClick={onLogout} options={categoryOptions} />
     </div>
   );
 };

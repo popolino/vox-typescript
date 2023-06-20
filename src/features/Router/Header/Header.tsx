@@ -7,14 +7,20 @@ import { TProfile } from "../../profile/Profile.types";
 
 export type THeaderProps = {
   authUser: TProfile | null;
+  onLogout: () => void;
+  headerTitle: string;
 };
 
-const Header: React.FC<THeaderProps> = ({ authUser }) => {
+const Header: React.FC<THeaderProps> = ({
+  authUser,
+  onLogout,
+  headerTitle,
+}) => {
   return (
     <header className={classes.header}>
       <LeftSidebar />
-      <Container />
-      <RightSidebar authUser={authUser} />
+      <Container headerTitle={headerTitle} />
+      <RightSidebar onLogout={onLogout} />
     </header>
   );
 };

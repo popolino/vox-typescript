@@ -1,92 +1,158 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Field, reduxForm } from "redux-form";
 import classes from "./ProfileHeader.module.scss";
 import { clsx } from "clsx";
 import { Input } from "../../../components/FormsControls/FormsControls";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { TProfile } from "../Profile.types";
+import CustomTextField from "../../../components/CustomTextField/CustomTextField";
 
-const ProfileDataForm = (props: any) => {
-  const handleOpenEditMode = () => {
-    props.setProfileEditMode(true);
+type TProfileDataProps = {
+  profile: TProfile | null;
+  owner: boolean | null;
+  handleFetchDataForm: (
+    aboutMe: string,
+    lookingForAJobDescription: string,
+    lookingForAJob: boolean,
+    fullName: string
+  ) => void;
+};
+
+const ProfileDataForm: React.FC<TProfileDataProps> = ({
+  profile,
+  owner,
+  handleFetchDataForm,
+}) => {
+  type TProfileDataForm = {
+    aboutMe: string;
+    lookingForAJobDescription: string;
+    lookingForAJob: boolean;
+    fullName: string;
   };
-  if (props.owner)
+  const { handleSubmit, control, formState, setValue } =
+    useForm<TProfileDataForm>({
+      mode: "all",
+      defaultValues: {
+        aboutMe: profile?.aboutMe || "",
+        lookingForAJobDescription: profile?.lookingForAJobDescription,
+        lookingForAJob: profile?.lookingForAJob,
+        fullName: profile?.fullName,
+      },
+    });
+
+  const [editMode, setEditMode] = useState<boolean>(false);
+
+  const onSubmit: SubmitHandler<TProfileDataForm> = (data) => {
+    handleFetchDataForm(
+      data.aboutMe,
+      data.lookingForAJobDescription,
+      data.lookingForAJob,
+      data.fullName
+    );
+    setEditMode(false);
+  };
+  const handleEditMode = () => {
+    setEditMode(true);
+    setValue("aboutMe", profile?.aboutMe || "");
+  };
+  if (owner)
     return (
       <form
-        onSubmit={props.handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className={clsx(classes["about-profile-data"], classes.form)}
       >
-        <div onClick={handleOpenEditMode}>
-          <h2>About me: </h2>
-          {props.profileEditMode ? (
-            <Field
-              name={"aboutMe"}
-              component={Input}
-              children={
-                <input
-                  type="text"
-                  placeholder="Tell us about yourself"
-                  defaultValue={props.profile.aboutMe}
-                />
-              }
-            />
-          ) : (
-            <p>{props.profile.aboutMe}</p>
-          )}
-        </div>
-        <div onClick={handleOpenEditMode}>
-          <h2>Looking for a job description: </h2>
-          {props.profileEditMode ? (
-            <Field
-              name={"lookingForAJobDescription"}
-              component={Input}
-              children={
-                <input
-                  type="text"
-                  placeholder="Tell us about yourself"
-                  defaultValue={props.profile.lookingForAJobDescription}
-                />
-              }
-            />
-          ) : (
-            <p>{props.profile.lookingForAJobDescription}</p>
-          )}
-        </div>
-        {props.profileEditMode && (
-          <div onClick={handleOpenEditMode}>
-            <h2>Full name: </h2>
-            {props.profileEditMode && (
-              <Field
-                name={"fullName"}
-                component={Input}
-                children={
+        <div>
+          <h2>About me:</h2>
+          {editMode ? (
+            <div>
+              <Controller
+                name="aboutMe"
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
                   <input
                     type="text"
-                    placeholder="Tell us about yourself"
-                    defaultValue={props.profile.fullName}
+                    value={value}
+                    // defaultValue={value}
+                    onChange={onChange}
+                    onBlur={onBlur}
                   />
-                }
+                )}
               />
-            )}
-          </div>
-        )}
-        <div onClick={handleOpenEditMode}>
-          <h2>Looking for a job: </h2>
-          {props.profileEditMode ? (
-            <Field
-              name={"lookingForAJob"}
-              component={Input}
-              children={
-                <input
-                  type="checkbox"
-                  defaultChecked={props.profile.lookingForAJob}
-                />
-              }
-            />
+            </div>
           ) : (
-            <p>{props.profile.lookingForAJob ? "Yes" : "No"}</p>
+            <p onClick={handleEditMode}>{profile?.aboutMe}</p>
           )}
         </div>
-        {props.profileEditMode && <button className="button-blue">Save</button>}
+
+        <div>
+          <h2>Looking for a job description:</h2>
+          {editMode ? (
+            <Controller
+              name="lookingForAJobDescription"
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <input
+                  type="text"
+                  value={value}
+                  defaultValue={profile?.lookingForAJobDescription}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                />
+              )}
+            />
+          ) : (
+            <p onClick={handleEditMode}>{profile?.lookingForAJobDescription}</p>
+          )}
+        </div>
+        <div>
+          <h2>Looking for a job:</h2>
+          {editMode ? (
+            <Controller
+              name="lookingForAJob"
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <input
+                  type="checkbox"
+                  defaultChecked={profile?.lookingForAJob}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                />
+              )}
+            />
+          ) : (
+            <p onClick={handleEditMode}>
+              {profile?.lookingForAJob ? "Yes" : "No"}
+            </p>
+          )}
+        </div>
+        {editMode && (
+          <div>
+            <h2>FullName:</h2>
+            <Controller
+              name="fullName"
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <input
+                  type="text"
+                  value={value}
+                  defaultValue={profile?.fullName}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                />
+              )}
+            />
+          </div>
+        )}
+        {editMode && (
+          <button
+            type="submit"
+            disabled={!formState.isValid}
+            className="button-blue-small"
+          >
+            Save
+          </button>
+        )}
       </form>
     );
   else
@@ -94,22 +160,18 @@ const ProfileDataForm = (props: any) => {
       <div className={classes["about-profile-data"]}>
         <div>
           <h2>About me:</h2>
-          <p>{props.profile && props.profile.aboutMe}</p>
+          <p>{profile && profile.aboutMe}</p>
         </div>
         <div>
           <h2>Looking for a job description:</h2>
-          <p>{props.profile && props.profile.lookingForAJobDescription}</p>
+          <p>{profile && profile.lookingForAJobDescription}</p>
         </div>
         <div>
           <h2>Looking for a job:</h2>
-          <p>{props.profile && props.profile.lookingForAJob ? "Yes" : "No"}</p>
+          <p>{profile && profile.lookingForAJob ? "Yes" : "No"}</p>
         </div>
       </div>
     );
 };
 
-const ProfileReduxForm = reduxForm({
-  form: "edit-profile",
-})(ProfileDataForm);
-
-export default ProfileReduxForm;
+export default ProfileDataForm;

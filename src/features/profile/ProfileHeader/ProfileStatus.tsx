@@ -3,9 +3,18 @@ import React, { useRef } from "react";
 import { TProfileHeaderProps } from "./ProfileHeader";
 import useClickAway from "../../../components/useClickAway/useClickAway";
 
-interface TStatusProps extends TProfileHeaderProps {}
+type TProfileStatus = {
+  owner: boolean | null;
+  status: string;
+  newStatus: string;
+  profileEditMode: boolean;
+  handleSetStatus: () => void;
+  handleChangeStatus: (newStatus: string) => void;
+  handleProfileEditMode: (edit: boolean) => void;
+};
 
-const ProfileStatusWithHooks: React.FC<TStatusProps> = ({
+const ProfileStatus: React.FC<TProfileStatus> = ({
+  owner,
   status,
   newStatus,
   profileEditMode,
@@ -15,7 +24,6 @@ const ProfileStatusWithHooks: React.FC<TStatusProps> = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   useClickAway(ref, () => handleProfileEditMode(false));
-  const owner = true;
   return (
     <div ref={ref}>
       {profileEditMode && (
@@ -26,12 +34,10 @@ const ProfileStatusWithHooks: React.FC<TStatusProps> = ({
             defaultValue={status}
           />
           <button
-            className={classes.button}
+            className="button-blue-small"
             onClick={() => {
               handleProfileEditMode(false);
               handleSetStatus();
-              // props.updateStatusThunk(props.newStatus);
-              // props.getStatusThunk(props.id);
             }}
           >
             save
@@ -57,4 +63,4 @@ const ProfileStatusWithHooks: React.FC<TStatusProps> = ({
     </div>
   );
 };
-export default ProfileStatusWithHooks;
+export default ProfileStatus;

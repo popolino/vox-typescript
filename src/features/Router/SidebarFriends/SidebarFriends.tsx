@@ -2,10 +2,14 @@ import React from "react";
 import classes from "./SidebarFriends.module.scss";
 import { TRouterProps } from "../Router";
 import SidebarFriend from "./SidebarFriend/SidebarFriend";
+import { TUser } from "../../users/Users.types";
 
-interface ISidebarFriends extends TRouterProps {}
+type TSidebarFriendsProps = {
+  friends: TUser[];
+  setCurrentId: (id: number) => void;
+};
 
-const SidebarFriends: React.FC<ISidebarFriends> = ({
+const SidebarFriends: React.FC<TSidebarFriendsProps> = ({
   friends,
   setCurrentId,
 }) => {

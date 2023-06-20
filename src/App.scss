@@ -83,7 +83,7 @@ main {
 .unique-name {
   font-size: 1.2rem;
   color: var(--subtext);
-  font-weight: 700;
+  font-weight: 500;
   padding: 0.5rem 0 0;
 }
 .post-container {
@@ -161,6 +161,16 @@ main {
   background: var(--background);
   color: var(--subtext);
 }
+.button-blue-small {
+  background: var(--main);
+  color: var(--background-light);
+  padding: 0.2rem 1rem;
+  font-size: 1.5rem;
+  border-radius: 1rem;
+  width: 7rem;
+  justify-content: center;
+  align-items: center;
+}
 .preloader,
 .preloader-profile {
   width: 100%;
@@ -177,3 +187,58 @@ main {
   padding: 2rem;
   color: red;
 }
+
+.custom-file-input {
+  color: transparent;
+  width: 10rem;
+  position: absolute;
+  left: 14rem;
+  cursor: pointer;
+  @media (max-width: 480px) {
+
+transform: translateX(-8rem);
+  }
+}
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+
+}
+
+.custom-file-input:hover::before {
+  border-color: black;
+}
+
+.custom-file-input:active {
+  outline: 0;
+}
+.search {
+  max-width: 42rem;
+  width: 100%;
+  padding: 1.4rem 3rem;
+  background-color: var(--background);
+  border-radius: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  @media (max-width:480px ) {
+      width: 2rem;
+      padding: 1rem 3rem;
+      background-color: transparent;
+  }
+}
+.search-input {
+  background-color: transparent;
+  font-weight: 600;
+  font-size: 1.7rem;
+  width: 100%;
+  color: var(--subtext);
+  @media (max-width:480px ) {
+      display: none;
+  }
+}
+.search-input::placeholder{
+  color: var(--subtext);
+  font-size: 1.6rem;
+  font-weight: 600;
+
+}
+

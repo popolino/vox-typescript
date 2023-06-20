@@ -17,6 +17,7 @@ import { profileActions } from "./features/profile/ProfileSlice";
 const allActions = {
   fetchAuth,
   fetchFriends,
+  fetchLogout,
   initializeAppThunk,
   ...appActions,
   ...profileActions,
@@ -26,16 +27,16 @@ function App() {
   const boundActions = useBoundActions(allActions);
 
   const initialized = useAppSelector((state) => state.appReducer.initialized);
-  const authData = useAppSelector((state) => state.authReducer.authData);
   const friends = useAppSelector((state) => state.usersReducer.friends);
 
   const setCurrentId = (id: number) => {
     boundActions.setCurrentUserId(id);
   };
+  const onLogout = () => {
+    boundActions.fetchLogout();
+  };
   useEffect(() => {
     boundActions.initializeAppThunk();
-    boundActions.fetchAuth();
-    boundActions.fetchFriends();
   }, []);
   if (!initialized) return <div>error</div>;
   return (
@@ -44,7 +45,13 @@ function App() {
         <Route path="/auth/*" element={<Auth />} />
         <Route
           path="/*"
-          element={<Router friends={friends} setCurrentId={setCurrentId} />}
+          element={
+            <Router
+              friends={friends}
+              setCurrentId={setCurrentId}
+              onLogout={onLogout}
+            />
+          }
         />
       </Routes>
     </HashRouter>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useClickAway from "../../../components/useClickAway/useClickAway";
 import { TProfile, TValuesProfileForm } from "../Profile.types";
 import { useBoundActions } from "../../../app/store";
@@ -44,8 +44,10 @@ const NewPost: React.FC<TNewPostProps> = ({ profile, owner }) => {
       online: "Just now",
       postComment: postText,
     });
+
     setPostText("");
     setShowButton(false);
+    boundActions.cleanImagePost(null);
   };
   return (
     <>
@@ -58,21 +60,33 @@ const NewPost: React.FC<TNewPostProps> = ({ profile, owner }) => {
                 alt=""
               />
             </div>
-            <div className={classes.textarea}>
-              <textarea
-                placeholder="What’s on your mind?"
-                onClick={() => setShowButton(true)}
-                onChange={(event) => setPostText(event.target.value)}
-                value={postText}
-              />
+            <div className={classes["post-content"]}>
+              <div className={classes.textarea}>
+                <textarea
+                  placeholder="What’s on your mind?"
+                  onClick={() => setShowButton(true)}
+                  onChange={(event) => setPostText(event.target.value)}
+                  value={postText}
+                />
+              </div>
+              {image && (
+                <img
+                  src={URL.createObjectURL(image)}
+                  className={classes["select-image"]}
+                />
+              )}
             </div>
           </div>
           <div className={classes.content}>
             <div className={classes["content-button"]}>
               <SvgSelector id="image" />
+              <input
+                type="file"
+                onChange={handleImageChange}
+                className="custom-file-input"
+              />
               <div className={classes.title}>
-                <input type="file" onChange={handleImageChange} />
-                {/*<p>Image</p>*/}
+                <p>Image</p>
               </div>
             </div>
             <div className={classes["content-button"]}>

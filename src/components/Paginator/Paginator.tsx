@@ -1,27 +1,29 @@
 // @ts-ignore
 import classes from "./Paginator.module.scss";
 import * as React from "react";
+import { Box, FormControl, InputLabel, NativeSelect } from "@mui/material";
+import SvgSelector from "../svgSelector/SvgSelector";
 
 type TProps = {
   totalUsersCount: number;
   pageCount: number;
   currentPage: number;
+  paginationMode: boolean;
   onPageChanged: (page: number) => void;
-  setPreviousPage: (page: number) => void;
   selectCurrentPage: (page: number) => void;
-  setNextPage: (page: number) => void;
   onPageCountChanged: (event: any) => void;
+  setPaginationMode: (pagination: boolean) => void;
 };
 
 const Paginator: React.FC<TProps> = ({
   totalUsersCount,
   pageCount,
   currentPage,
-  setNextPage,
-  setPreviousPage,
+  paginationMode,
   onPageChanged,
   selectCurrentPage,
   onPageCountChanged,
+  setPaginationMode,
 }) => {
   let pageCountSize = Math.ceil(totalUsersCount / pageCount);
   let pages: Array<number> = [];
@@ -33,12 +35,17 @@ const Paginator: React.FC<TProps> = ({
   const firstElementOnPage = currentPage * pageCount - pageCount + 1;
   return (
     <div className={classes.pagination}>
+      <button
+        className={classes.close}
+        onClick={() => setPaginationMode(false)}
+      >
+        <SvgSelector id="close" />
+      </button>
       <div className={classes["top-panel"]}>
         <button
           disabled={currentPage === 1}
           onClick={() => {
-            onPageChanged(currentPage);
-            setPreviousPage(currentPage);
+            onPageChanged(currentPage - 1);
           }}
         >
           ❮
@@ -49,7 +56,7 @@ const Paginator: React.FC<TProps> = ({
             className={currentPage === p ? classes.selected : ""}
             onClick={() => {
               selectCurrentPage(p);
-              onPageChanged(currentPage);
+              onPageChanged(p);
             }}
           >
             {p}
@@ -82,27 +89,29 @@ const Paginator: React.FC<TProps> = ({
         </button>
         <button
           onClick={() => {
-            onPageChanged(currentPage);
-            setNextPage(currentPage);
+            onPageChanged(currentPage + 1);
           }}
           disabled={currentPage === pageCountSize}
         >
           ❯
         </button>
       </div>
+
       <div className={classes["bottom-panel"]}>
-        <select
-          name="elements"
-          id="v"
-          defaultValue={"rowsPerPages"}
-          onChange={(event) => {
-            onPageCountChanged(event.target.value);
-          }}
-        >
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="15">15</option>
-        </select>
+        <div className="mui-select">
+          <InputLabel variant="standard">Rows</InputLabel>
+          <NativeSelect
+            defaultValue={10}
+            onChange={(event) => {
+              onPageCountChanged(event.target.value);
+            }}
+          >
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={15}>15</option>
+            <option value={30}>30</option>
+          </NativeSelect>
+        </div>
         <p>{`Results: ${firstElementOnPage} - ${lastElementOnPage} of ${totalUsersCount}`}</p>
       </div>
     </div>

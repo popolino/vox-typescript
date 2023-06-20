@@ -11,11 +11,12 @@ export type TUser = {
   followed: boolean;
 };
 export type TProfile = {
-  userId: number;
-  lookingForAJob: boolean;
-  lookingForAJobDescription: string;
-  fullName: string;
-  photos: TPhotos;
+  aboutMe?: string;
+  userId?: number;
+  lookingForAJob?: boolean;
+  lookingForAJobDescription?: string;
+  fullName?: string;
+  photos?: TPhotos;
 };
 export type TPost = {
   id: number;

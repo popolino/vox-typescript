@@ -1,14 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import classes from "./ProfileHeader.module.scss";
-import header from "../../../img/image 4.png";
+import header from "../../../img/background.jpg";
 import avatar from "../../../img/avatar.jpg";
-import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
-import { TProfile } from "../Profile.types";
+import ProfileStatus from "./ProfileStatus";
+import { TProfile, TUser } from "../Profile.types";
 import SvgSelector from "../../../components/svgSelector/SvgSelector";
 import { useBoundActions } from "../../../app/store";
-import { fetchUpdatePhoto, profileActions } from "../ProfileSlice";
+import {
+  fetchEditProfile,
+  fetchUpdatePhoto,
+  fetchUserProfile,
+  profileActions,
+} from "../ProfileSlice";
+import ProfileDataForm from "./ProfileDataForm";
+import clsx from "clsx";
 
 export type TProfileHeaderProps = {
+  friends: TUser[];
   owner: boolean | null;
   profile: TProfile | null;
   status: string;
@@ -17,14 +25,17 @@ export type TProfileHeaderProps = {
   handleSetStatus: () => void;
   handleChangeStatus: (newStatus: string) => void;
   handleProfileEditMode: (edit: boolean) => void;
-};
-
-const allActions = {
-  fetchUpdatePhoto,
-  ...profileActions,
+  onMainPhotoSelected: (event: any) => void;
+  handleFetchDataForm: (
+    aboutMe: string,
+    lookingForAJobDescription: string,
+    lookingForAJob: boolean,
+    fullName: string
+  ) => void;
 };
 
 const ProfileHeader: React.FC<TProfileHeaderProps> = ({
+  friends,
   owner,
   profile,
   status,
@@ -33,23 +44,14 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
   handleSetStatus,
   handleChangeStatus,
   handleProfileEditMode,
+  onMainPhotoSelected,
+  handleFetchDataForm,
 }) => {
   const [changePhoto, setChangePhoto] = useState<boolean>(false);
-  const boundActions = useBoundActions(allActions);
 
   const handleChangePhoto = () => {
     changePhoto ? setChangePhoto(false) : setChangePhoto(true);
   };
-
-  const onMainPhotoSelected = (event: any) => {
-    boundActions.fetchUpdatePhoto(event.target.files[0]);
-    // event.target.files.length && boundActions.savePhoto(event.target.files[0]);
-  };
-
-  // const onSubmit = (formData: any) => {
-  //   setProfileEditMode(false);
-  //   props.saveProfile(formData);
-  // };
   return (
     <div className={classes.header}>
       <div className={classes.image}>
@@ -85,15 +87,22 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
                 <p>Last seen 22 minutes ago</p>
               </div>
             </div>
-            <ProfileStatusWithHooks
-              owner={owner}
-              profileEditMode={profileEditMode}
-              status={status}
-              newStatus={newStatus}
-              handleSetStatus={handleSetStatus}
-              handleChangeStatus={handleChangeStatus}
-              handleProfileEditMode={handleProfileEditMode}
+            <div className={classes["functions-container"]}>
+              <ProfileStatus
+                owner={owner}
+                profileEditMode={profileEditMode}
+                status={status}
+                newStatus={newStatus}
+                handleSetStatus={handleSetStatus}
+                handleChangeStatus={handleChangeStatus}
+                handleProfileEditMode={handleProfileEditMode}
+              />
+              {!owner && <button className="button-blue">Message</button>}
+            </div>
+            <ProfileDataForm
               profile={profile}
+              owner={owner}
+              handleFetchDataForm={handleFetchDataForm}
             />
           </div>
           <div className={classes["user-data"]}>
@@ -116,7 +125,7 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
               </div>
               <div className={classes.counter}>
                 <div className={classes.number}>
-                  <p>5.5k</p>
+                  <p>{friends.length}</p>
                 </div>
                 <div className={classes.title}>
                   <p>Friends</p>
@@ -127,8 +136,11 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
               <div className={classes["change-container"]}>
                 <input
                   type="file"
-                  name="file"
-                  className={changePhoto ? classes.change : classes.hide}
+                  className={
+                    changePhoto
+                      ? classes.change
+                      : clsx(classes.change, classes.hide)
+                  }
                   onChange={onMainPhotoSelected}
                 />
                 <button onClick={handleChangePhoto} className={classes.more}>
