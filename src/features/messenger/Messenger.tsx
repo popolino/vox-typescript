@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 import classes from "./Messenger.module.scss";
 import SvgSelector from "../../components/svgSelector/SvgSelector";
-import avatar from "../../img/avatar.jpg";
 import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 import DialogUser from "./DialogUser";
 import DialogWindow from "./DialogWindow";
 import { TUser } from "../users/Users.types";
+import { useAppSelector } from "../../app/hooks";
 
-type TMessengerProps = {
-  friends: TUser[];
-};
+const Messenger: React.FC = () => {
+  const friends = useAppSelector((state) => state.usersReducer.friends);
 
-const Messenger: React.FC<TMessengerProps> = ({ friends }) => {
   const [selectUser, setSelectUser] = useState<{
     id: number;
     username: string;

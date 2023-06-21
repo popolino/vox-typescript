@@ -34,11 +34,10 @@ textarea {
 textarea::placeholder {
   font-weight: 600;
   font-size: 1.6rem;
-  color: var(--subtext);
-  padding: 1.5rem 3rem;
+  color: var(--subtext) ;
 }
 
-textarea:focus {
+textarea {
   font-weight: 600;
   font-size: 1.6rem;
   color: var(--subtext);

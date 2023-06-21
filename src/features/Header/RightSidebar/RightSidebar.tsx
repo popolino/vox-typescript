@@ -1,21 +1,20 @@
 import React from "react";
 import classes from "./RightSidebar.module.scss";
-import avatar from "../../../../img/avatar.jpg";
-import SvgSelector from "../../../../components/svgSelector/SvgSelector";
-import { THeaderProps } from "../Header";
-import { IconButton } from "@mui/material";
-import CustomSelect from "../../../../components/CustomSelect/CustomSelect";
-import { TOption } from "../../../../components/CustomSelect/CustomSelect.types";
+import SvgSelector from "../../../components/svgSelector/SvgSelector";
+import CustomSelect from "../../../components/CustomSelect/CustomSelect";
+import { TOption } from "../../../components/CustomSelect/CustomSelect.types";
+import { TProfile } from "../../profile/Profile.types";
 
 type TRightSidebarProps = {
   onLogout: () => void;
+  authUser: TProfile | null;
 };
 
 const categoryOptions: TOption[] = [
   { value: "support", label: "Support", id: "support" },
   { value: "logout", label: "Logout", id: "logout" },
 ];
-const RightSidebar: React.FC<TRightSidebarProps> = ({ onLogout }) => {
+const RightSidebar: React.FC<TRightSidebarProps> = ({ onLogout, authUser }) => {
   return (
     <div className={classes["right-sidebar"]}>
       <div className={classes.notifications}>
@@ -26,7 +25,11 @@ const RightSidebar: React.FC<TRightSidebarProps> = ({ onLogout }) => {
           <SvgSelector id="bell" className={classes["header-svg"]} />
         </div>
       </div>
-      <CustomSelect onClick={onLogout} options={categoryOptions} />
+      <CustomSelect
+        onClick={onLogout}
+        options={categoryOptions}
+        authUser={authUser}
+      />
     </div>
   );
 };

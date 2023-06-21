@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import classes from "./AboutProfile.module.scss";
 import { NavLink } from "react-router-dom";
-import { authSlice, fetchAuth } from "../../../Auth/AuthSlice";
-import { useAppSelector } from "../../../../app/hooks";
-import avatar from "../../../../img/avatar.jpg";
+import { authSlice, fetchAuth } from "../../Auth/AuthSlice";
+import { useAppSelector } from "../../../app/hooks";
+import avatar from "../../../img/user.png";
 import {
   fetchStatus,
   fetchUpdateStatus,
   fetchUserProfile,
   profileActions,
-} from "../../../profile/ProfileSlice";
-import { useBoundActions } from "../../../../app/store";
-import { TProfile } from "../../../profile/Profile.types";
+} from "../../profile/ProfileSlice";
+import { useBoundActions } from "../../../app/store";
+import { TProfile } from "../../profile/Profile.types";
 
 const allActions = {
   fetchUserProfile,

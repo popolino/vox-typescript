@@ -1,26 +1,20 @@
 import React from "react";
 import classes from "../SidebarFriends.module.scss";
 import Tooltip from "@mui/material/Tooltip";
-import avatar from "../../../../img/avatar.jpg";
+import avatar from "../../../img/user.png";
 import { NavLink } from "react-router-dom";
-import { TPhotos } from "../../../users/Users.types";
-import SvgSelector from "../../../../components/svgSelector/SvgSelector";
+import { TPhotos } from "../../users/Users.types";
+import SvgSelector from "../../../components/svgSelector/SvgSelector";
 
 type TSidebarProps = {
   id: number;
   username: string;
   photo: string;
-  setCurrentId: (id: number) => void;
 };
 
-const SidebarFriend: React.FC<TSidebarProps> = ({
-  id,
-  username,
-  photo,
-  setCurrentId,
-}) => {
+const SidebarFriend: React.FC<TSidebarProps> = ({ id, username, photo }) => {
   return (
-    <NavLink to={`/profile/${id}`} onClick={() => setCurrentId(id)}>
+    <NavLink to={`/profile/${id}`}>
       <div className={`${classes.user} user`}>
         <div className={`${classes.avatar} sidebar__profile_photo`}>
           <img src={photo ? photo : avatar} alt="" />

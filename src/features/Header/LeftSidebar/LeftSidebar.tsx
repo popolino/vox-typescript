@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./LeftSidebar.module.scss";
-import SvgSelector from "../../../../components/svgSelector/SvgSelector";
+import SvgSelector from "../../../components/svgSelector/SvgSelector";
 
 const LeftSidebar = () => {
   return (

@@ -62,11 +62,17 @@ export const usersSlice = createSlice({
       state.meta.fetching = true;
     });
     builder.addCase(followToUser.fulfilled, (state, { payload }) => {
-      state.users = state.users.map((user) =>
-        user.id === payload ? { ...user, followed: true } : user
+      const friend: TUser | undefined = state.users.find(
+        (user) => user.id === payload
       );
+      if (!friend) return;
+      const i = state.users.indexOf(friend);
+      friend.followed = true;
+      state.users[i] = friend;
+      state.friends.push(friend);
       state.meta.fetching = false;
     });
+
     builder.addCase(followToUser.rejected, (state, { payload }) => {
       state.meta.fetching = false;
     });
@@ -78,23 +84,12 @@ export const usersSlice = createSlice({
       state.users = state.users.map((user) =>
         user.id === payload ? { ...user, followed: false } : user
       );
+      state.friends = state.friends.filter((friend) => friend.id !== payload);
       state.meta.fetching = false;
     });
     builder.addCase(unFollowToUser.rejected, (state, { payload }) => {
       state.meta.fetching = false;
     });
-    // MATCHER
-    // builder.addMatcher(isPendingAction, (state) => {
-    //   state.status = "loading";
-    //   state.message = "";
-    // });
-    // builder.addMatcher(isFulfilledAction, (state) => {
-    //   state.status = "idle";
-    // });
-    // builder.addMatcher(isRejectedAction, (state, { payload }) => {
-    //   state.status = "failed";
-    //   state.message = payload;
-    // });
   },
 });
 
@@ -130,7 +125,7 @@ export const unFollowToUser = createAsyncThunk(
   "usersReducer/unFollowToUser",
   async (id: number, { rejectWithValue }) => {
     try {
-      const { data } = await usersAPI.deleteFollowUser(id);
+      await usersAPI.deleteFollowUser(id);
       return id;
     } catch (e: any) {
       return rejectWithValue(e.message);

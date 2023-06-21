@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./NavList.module.scss";
 import { NavLink } from "react-router-dom";
-import SvgSelector from "../../../../components/svgSelector/SvgSelector";
+import SvgSelector from "../../../components/svgSelector/SvgSelector";
 
 type TNavLinkComponentProps = {
   path: string;

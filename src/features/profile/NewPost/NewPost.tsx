@@ -10,7 +10,7 @@ import {
 } from "../ProfileSlice";
 import { fetchAuth } from "../../Auth/AuthSlice";
 import classes from "./NewPost.module.scss";
-import avatar from "../../../img/avatar.jpg";
+import avatar from "../../../img/user.png";
 import { Field } from "redux-form";
 import { FormsControls } from "../../../components/FormsControls/FormsControls";
 import SvgSelector from "../../../components/svgSelector/SvgSelector";
@@ -35,8 +35,9 @@ const NewPost: React.FC<TNewPostProps> = ({ profile, owner }) => {
   useClickAway(ref, () => setShowButton(false));
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+
     if (file) {
-      boundActions.addImagePost(file);
+      boundActions.addImagePost(URL.createObjectURL(file));
     }
   };
   const onAddPost = () => {
@@ -47,7 +48,7 @@ const NewPost: React.FC<TNewPostProps> = ({ profile, owner }) => {
 
     setPostText("");
     setShowButton(false);
-    boundActions.cleanImagePost(null);
+    boundActions.cleanImagePost();
   };
   return (
     <>
@@ -69,12 +70,7 @@ const NewPost: React.FC<TNewPostProps> = ({ profile, owner }) => {
                   value={postText}
                 />
               </div>
-              {image && (
-                <img
-                  src={URL.createObjectURL(image)}
-                  className={classes["select-image"]}
-                />
-              )}
+              {image && <img src={image} className={classes["select-image"]} />}
             </div>
           </div>
           <div className={classes.content}>

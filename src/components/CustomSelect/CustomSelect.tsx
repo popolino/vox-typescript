@@ -2,14 +2,20 @@ import React, { useState } from "react";
 import classes from "./CustomSelect.module.scss";
 import clsx from "clsx";
 import SvgSelector from "../svgSelector/SvgSelector";
-import avatar from "../../img/avatar.jpg";
+import avatar from "../../img/user.png";
 import { TOption } from "./CustomSelect.types";
+import { TProfile } from "../../features/profile/Profile.types";
 
 type TCustomSelectProps = {
   options: TOption[];
   onClick: () => void;
+  authUser: TProfile | null;
 };
-const CustomSelect: React.FC<TCustomSelectProps> = ({ options, onClick }) => {
+const CustomSelect: React.FC<TCustomSelectProps> = ({
+  options,
+  onClick,
+  authUser,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const handleCloseSelect = () => {
@@ -19,10 +25,14 @@ const CustomSelect: React.FC<TCustomSelectProps> = ({ options, onClick }) => {
       setIsClosing(false);
     }, 200);
   };
+  console.log(authUser);
   return (
     <div className={classes.user}>
       <div className="sidebar__profile_photo">
-        <img src={avatar} alt="" />
+        <img
+          src={(authUser && authUser.photos && authUser.photos.small) || avatar}
+          alt=""
+        />
       </div>
       <div
         className={clsx(classes.sdg, classes.container, {

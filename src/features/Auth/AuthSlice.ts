@@ -1,7 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import avatar from "../../img/avatar.jpg";
-import me from "../../img/avatar.jpg";
 import cat from "../../img/pp.jpg";
 import { authAPI, profileAPI, usersAPI } from "../../api/api";
 import { usersSlice } from "../users/usersSlice";

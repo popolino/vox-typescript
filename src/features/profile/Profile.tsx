@@ -18,6 +18,7 @@ import { fetchAuth } from "../Auth/AuthSlice";
 import { useParams } from "react-router-dom";
 import useClickAway from "../../components/useClickAway/useClickAway";
 import { fetchFriends } from "../users/usersSlice";
+import ProfilePending from "./ProfilePending/ProfilePending";
 
 const allActions = {
   fetchUserProfile,
@@ -38,6 +39,7 @@ const Profile = () => {
   const owner = authData && authData.data.id === profile?.userId;
   const wallData = useAppSelector((state) => state.profileReducer.wallData);
   const friends = useAppSelector((state) => state.usersReducer.friends);
+  const metaStatus = useAppSelector((state) => state.profileReducer.metaStatus);
 
   const [newStatus, setNewStatus] = useState<string>("");
   const [profileEditMode, setProfileEditMode] = useState<boolean>(false);
@@ -79,25 +81,28 @@ const Profile = () => {
         boundActions.fetchUserProfile(authData.data.id) &&
         boundActions.fetchStatus(authData.data.id);
   }, [currentId, authData]);
-  return (
-    <div className={classes.container}>
-      <ProfileHeader
-        status={status}
-        newStatus={newStatus}
-        profileEditMode={profileEditMode}
-        handleSetStatus={handleUpdateStatus}
-        handleChangeStatus={handleChangeStatus}
-        handleProfileEditMode={handleProfileEditMode}
-        onMainPhotoSelected={onMainPhotoSelected}
-        handleFetchDataForm={handleFetchDataForm}
-        profile={profile}
-        owner={owner}
-        friends={friends}
-      />
-      <NewPost profile={profile} owner={owner} />
-      <Wall profile={profile} wallData={wallData} owner={owner} />
-    </div>
-  );
+  if (metaStatus === "idle")
+    return (
+      <div className={classes.container}>
+        <ProfileHeader
+          status={status}
+          newStatus={newStatus}
+          profileEditMode={profileEditMode}
+          handleSetStatus={handleUpdateStatus}
+          handleChangeStatus={handleChangeStatus}
+          handleProfileEditMode={handleProfileEditMode}
+          onMainPhotoSelected={onMainPhotoSelected}
+          handleFetchDataForm={handleFetchDataForm}
+          profile={profile}
+          owner={owner}
+          friends={friends}
+        />
+        <NewPost profile={profile} owner={owner} />
+        <Wall profile={profile} wallData={wallData} owner={owner} />
+      </div>
+    );
+  else if (metaStatus === "loading") return <ProfilePending owner={owner} />;
+  else return <div>404</div>;
 };
 
 export default Profile;

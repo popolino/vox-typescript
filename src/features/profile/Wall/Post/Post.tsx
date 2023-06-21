@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import classes from "./Post.module.scss";
-import avatar from "../../../../img/avatar.jpg";
 import SvgSelector from "../../../../components/svgSelector/SvgSelector";
 import { TProfile } from "../../Profile.types";
 
 type TPostProps = {
   avatar: string;
-  imagePost: File | null;
   online: string;
   postComment: string;
   postPic: string;
@@ -17,7 +15,6 @@ type TPostProps = {
 };
 
 const Post: React.FC<TPostProps> = ({
-  imagePost,
   avatar,
   online,
   postComment,
@@ -55,11 +52,7 @@ const Post: React.FC<TPostProps> = ({
 
         {postPic && (
           <div className={classes["post-picture"]}>
-            {imagePost && typeof postPic !== "string" ? (
-              <img src={URL.createObjectURL(imagePost)} />
-            ) : (
-              <img src={postPic} alt="" />
-            )}
+            <img src={postPic} alt="" />
           </div>
         )}
         <div className={classes["post-tooltip"]}>

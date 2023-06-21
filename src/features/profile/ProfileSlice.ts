@@ -1,16 +1,24 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  isPending,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 import { TPost, TProfile, TRegistrationFields, TUser } from "./Profile.types";
-import { RootState } from "../../app/store";
-import avatar from "../../img/avatar.jpg";
+import avatar from "../../img/user.png";
 import cat from "../../img/image 6.png";
 import me from "../../img/pp.jpg";
 import { authAPI, profileAPI, usersAPI } from "../../api/api";
+import {
+  isFulfilledAction,
+  isPendingAction,
+  isRejectedAction,
+} from "../../utils";
 
 export interface ProfileState {
   currentId: number | null;
   authUser: TProfile | null;
-  image: File | null;
-  imagePost: File | null;
+  image: string | null;
   status: string;
   input: string;
   edit: boolean;
@@ -18,7 +26,8 @@ export interface ProfileState {
   wallData: TPost[];
   button: boolean;
   profile: TProfile | null;
-  metaStatus: "pending" | "fulfilled" | "rejected";
+  metaStatus: "idle" | "loading" | "failed";
+  message: any;
   meta: {
     fetching: boolean;
     creating: boolean;
@@ -31,7 +40,6 @@ const initialState: ProfileState = {
   currentId: null,
   authUser: null,
   image: null,
-  imagePost: null,
   status: "",
   input: "",
   edit: false,
@@ -62,7 +70,8 @@ const initialState: ProfileState = {
   ],
   button: false,
   profile: null,
-  metaStatus: "fulfilled",
+  metaStatus: "idle",
+  message: "",
   meta: {
     fetching: false,
     creating: false,
@@ -90,11 +99,10 @@ export const profileSlice = createSlice({
     savePhoto: (state, action) => {
       state.profile && (state.profile.photos = action.payload);
     },
-    addImagePost: (state, action) => {
+    addImagePost: (state, action: PayloadAction<string>) => {
       state.image = action.payload;
-      state.imagePost = state.image;
     },
-    cleanImagePost: (state, payload) => {
+    cleanImagePost: (state) => {
       state.image = null;
     },
     addPost: (
@@ -161,6 +169,18 @@ export const profileSlice = createSlice({
     });
     builder.addCase(fetchEditProfile.rejected, (state, { payload }) => {
       state.meta.fetching = false;
+    });
+    // MATCHER
+    builder.addMatcher(isPendingAction, (state) => {
+      state.metaStatus = "loading";
+      state.message = "";
+    });
+    builder.addMatcher(isFulfilledAction, (state) => {
+      state.metaStatus = "idle";
+    });
+    builder.addMatcher(isRejectedAction, (state, payload) => {
+      state.metaStatus = "failed";
+      state.message = payload;
     });
   },
 });

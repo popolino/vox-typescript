@@ -1,6 +1,6 @@
 import classes from "./Messenger.module.scss";
 import clsx from "clsx";
-import avatar from "../../img/avatar.jpg";
+import avatar from "../../img/user.png";
 import { NavLink } from "react-router-dom";
 import SvgSelector from "../../components/svgSelector/SvgSelector";
 import React from "react";

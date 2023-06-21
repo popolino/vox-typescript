@@ -1,6 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import avatar from "../../img/avatar.jpg";
-import me from "../../img/avatar.jpg";
 import cat from "../../img/pp.jpg";
 import { authSlice, fetchAuth } from "./features/Auth/AuthSlice";
 import { TUser } from "./features/users/Users.types";

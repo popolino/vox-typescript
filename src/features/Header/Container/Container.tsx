@@ -1,16 +1,16 @@
 import React from "react";
 import classes from "./Container.module.scss";
-import SvgSelector from "../../../../components/svgSelector/SvgSelector";
+import SvgSelector from "../../../components/svgSelector/SvgSelector";
 import { useParams } from "react-router-dom";
 
 export type TContainer_NavigationProps = {
-  headerTitle: string;
+  currentPage: string;
 };
 
-const Container: React.FC<TContainer_NavigationProps> = ({ headerTitle }) => {
+const Container: React.FC<TContainer_NavigationProps> = ({ currentPage }) => {
   return (
     <div className={classes.container}>
-      <div className={classes.tittle}>{headerTitle}</div>
+      <div className={classes.tittle}>{currentPage}</div>
       <div className="search">
         <div className={classes.svg}>
           <SvgSelector id="search" className={classes["search-svg"]} />

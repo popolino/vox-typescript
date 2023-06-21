@@ -1,7 +1,7 @@
 // @ts-ignore
 import classes from "./Users.module.scss";
 import User from "./User/User";
-import avatar from "../../img/avatar.jpg";
+import avatar from "../../img/user.png";
 import * as React from "react";
 import {
   fetchUsers,
@@ -66,13 +66,15 @@ const Users = () => {
   return (
     <>
       {!paginationMode && (
-        <IconButton
-          size="large"
-          className={classes.arrow}
-          onClick={() => setPaginationMode(true)}
-        >
-          <SvgSelector id="arrow" />
-        </IconButton>
+        <div className={classes.arrow}>
+          <IconButton
+            size="large"
+            className={classes.arrow}
+            onClick={() => setPaginationMode(true)}
+          >
+            <SvgSelector id="arrow" />
+          </IconButton>
+        </div>
       )}
       {paginationMode && (
         <Paginator
@@ -94,7 +96,7 @@ const Users = () => {
               setCurrentId={setCurrentId}
               id={user.id}
               name={user.name}
-              photos={user.photos.small ? user.photos.small : avatar}
+              photos={user.photos.large ? user.photos.large : avatar}
               followed={user.followed}
               handleFollowToUser={handleFollowToUser}
               handleUnFollowToUser={handleUnFollowToUser}

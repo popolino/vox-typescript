@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import classes from "./ProfileHeader.module.scss";
 import header from "../../../img/background.jpg";
-import avatar from "../../../img/avatar.jpg";
+import avatar from "../../../img/user.png";
 import ProfileStatus from "./ProfileStatus";
 import { TProfile, TUser } from "../Profile.types";
 import SvgSelector from "../../../components/svgSelector/SvgSelector";
@@ -65,8 +65,8 @@ const ProfileHeader: React.FC<TProfileHeaderProps> = ({
             >
               <img
                 src={
-                  profile && profile.photos && profile.photos.small
-                    ? profile.photos.small
+                  profile && profile.photos && profile.photos.large
+                    ? profile.photos.large
                     : avatar
                 }
                 alt=""
