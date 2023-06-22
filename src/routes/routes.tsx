@@ -1,9 +1,9 @@
 import Profile from "../features/profile/Profile";
 import Users from "../features/users/Users";
 import Messenger from "../features/messenger/Messenger";
-import NotFoundPage from "../components/NotFoundPage/NotFoundPage";
+import NotFoundPage from "../components/not-found-page/NotFoundPage";
 import React from "react";
-import Auth from "../features/Auth/Auth";
+import Auth from "../features/auth/Auth";
 
 export const routes = [
   {
@@ -27,6 +27,16 @@ export const routes = [
     component: <Auth />,
   },
   {
+    path: "",
+    label: "Profile",
+    iconId: "profile",
+    param: "",
+    display: false,
+    showOnMobile: false,
+    public: false,
+    component: <Profile />,
+  },
+  {
     path: "profile",
     label: "Profile",
     iconId: "profile",
@@ -47,11 +57,11 @@ export const routes = [
     component: <Users />,
   },
   {
-    path: "messenger",
+    path: "messenger/*",
     label: "Messenger",
     iconId: "messenger",
     param: "",
-    display: true,
+    display: false,
     showOnMobile: true,
     public: false,
     component: <Messenger />,

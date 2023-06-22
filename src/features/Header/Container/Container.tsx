@@ -1,7 +1,6 @@
 import React from "react";
 import classes from "./Container.module.scss";
 import SvgSelector from "../../../components/svgSelector/SvgSelector";
-import { useParams } from "react-router-dom";
 
 export type TContainer_NavigationProps = {
   currentPage: string;

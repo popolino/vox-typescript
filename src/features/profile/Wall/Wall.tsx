@@ -1,11 +1,6 @@
-// @ts-ignore
 import React from "react";
-// @ts-ignore
-import Post from "./Post/Post.tsx";
 import { TPost, TProfile } from "../Profile.types";
-import { useBoundActions } from "../../../app/store";
-import { profileActions } from "../ProfileSlice";
-import { useAppSelector } from "../../../app/hooks";
+import Post from "./post/Post";
 
 type TWallProps = {
   profile: TProfile | null;

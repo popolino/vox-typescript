@@ -1,14 +1,12 @@
 import classes from "./Auth.module.scss";
-import React, { useEffect } from "react";
+import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import Registration from "./Registration/Registration";
-import welcomeImage from "../../img/welcome.png";
+import welcomeImage from "../../assets/img/welcome.png";
 import { useAppSelector } from "../../app/hooks";
 import { useBoundActions } from "../../app/store";
-import { useSnackbar } from "notistack";
-import { fetchUserProfile, profileActions } from "../profile/ProfileSlice";
 import { authActions, fetchAuth, fetchCaptcha, fetchLogin } from "./AuthSlice";
-import Login from "./Login/Login";
+import Login from "./login/Login";
+import Registration from "./registration/Registration";
 
 const allActions = {
   fetchAuth,
@@ -18,11 +16,10 @@ const allActions = {
   ...authActions,
 };
 
-const Auth = () => {
+const Auth: React.FC = () => {
   const boundActions = useBoundActions(allActions);
 
   const isAuth = useAppSelector((state) => state.authReducer.isAuth);
-  const authData = useAppSelector((state) => state.authReducer.authData);
   const captchaURL = useAppSelector((state) => state.authReducer.captchaURL);
 
   const handleFetchLogin = (

@@ -1,6 +1,4 @@
-// @ts-ignore
 import React from "react";
-// @ts-ignore
 import classes from "./User.module.scss";
 import { NavLink } from "react-router-dom";
 import { clsx } from "clsx";
@@ -34,7 +32,6 @@ const User: React.FC<TUserProps> = ({
       <p>{name}</p>
       {!followed ? (
         <button
-          // disabled={followingInProgress.some((userId) => userId === id)}
           className="button-blue"
           onClick={() => {
             handleFollowToUser(id);
@@ -45,7 +42,6 @@ const User: React.FC<TUserProps> = ({
       ) : (
         <button
           className="button-gray"
-          // disabled={followingInProgress.some((id) => id === id)}
           onClick={() => {
             handleUnFollowToUser(id);
           }}

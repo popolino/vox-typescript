@@ -1,45 +1,83 @@
 import React, { useEffect, useState } from "react";
 import classes from "./Messenger.module.scss";
-import SvgSelector from "../../components/svgSelector/SvgSelector";
-import { NavLink } from "react-router-dom";
-import clsx from "clsx";
-import DialogUser from "./DialogUser";
+import { Route, Routes } from "react-router-dom";
 import DialogWindow from "./DialogWindow";
-import { TUser } from "../users/Users.types";
 import { useAppSelector } from "../../app/hooks";
+import { useBoundActions } from "../../app/store";
+import { profileActions } from "../profile/ProfileSlice";
+import DialogsUsers from "./dialogs-users/DialogsUsers";
+
+const allActions = {
+  ...profileActions,
+};
 
 const Messenger: React.FC = () => {
-  const friends = useAppSelector((state) => state.usersReducer.friends);
+  const boundActions = useBoundActions(allActions);
 
-  const [selectUser, setSelectUser] = useState<{
-    id: number;
-    username: string;
-    photo: string;
-  } | null>(null);
-  const handleSelectUser = (id: number, username: string, photo: string) => {
-    setSelectUser({ id: id, username: username, photo: photo });
+  const selectUserDialog = useAppSelector(
+    (state) => state.profileReducer.selectUserDialog
+  );
+  const [width, setWidth] = useState(window.innerWidth);
+
+  const isWideScreen = width >= 480;
+  const setSelectUserDialog = (
+    id: number | undefined,
+    username: string | undefined,
+    photo: string | undefined
+  ) => {
+    boundActions.setSelectUser({ id: id, username: username, photo: photo });
   };
+  const onCleanSelectUser = () => {
+    boundActions.setSelectUser(null);
+  };
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   return (
     <div className={classes.container}>
-      <div className={classes["left-container"]}>
-        <div className={classes.search}>
-          <SvgSelector id="burger" />
-          <div className="search">
-            <SvgSelector id="search" />
-            <input className="search-input" placeholder="Search" type="text" />
-          </div>
-        </div>
-        {friends.map((friend) => (
-          <DialogUser
-            handleSelectUser={handleSelectUser}
-            key={friend.id}
-            id={friend.id}
-            username={friend.name}
-            photo={friend.photos.small}
+      {!isWideScreen && (
+        <Routes>
+          <Route
+            path="/*"
+            element={
+              <DialogsUsers
+                setSelectUserDialog={setSelectUserDialog}
+                selectUserDialog={selectUserDialog}
+              />
+            }
           />
-        ))}
-      </div>
-      {selectUser && <DialogWindow selectUser={selectUser} />}
+
+          {selectUserDialog && (
+            <Route
+              path={`/dialog/${selectUserDialog.id}`}
+              element={
+                <DialogWindow
+                  selectUserDialog={selectUserDialog}
+                  onCleanSelectUser={onCleanSelectUser}
+                />
+              }
+            />
+          )}
+        </Routes>
+      )}
+      {isWideScreen && (
+        <>
+          <DialogsUsers
+            setSelectUserDialog={setSelectUserDialog}
+            selectUserDialog={selectUserDialog}
+          />
+          <DialogWindow
+            selectUserDialog={selectUserDialog}
+            onCleanSelectUser={onCleanSelectUser}
+          />
+        </>
+      )}
     </div>
   );
 };

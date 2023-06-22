@@ -1,14 +1,9 @@
-import {
-  createAsyncThunk,
-  createSlice,
-  isPending,
-  PayloadAction,
-} from "@reduxjs/toolkit";
-import { TPost, TProfile, TRegistrationFields, TUser } from "./Profile.types";
-import avatar from "../../img/user.png";
-import cat from "../../img/image 6.png";
-import me from "../../img/pp.jpg";
-import { authAPI, profileAPI, usersAPI } from "../../api/api";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { TPost, TProfile } from "./Profile.types";
+import avatar from "../../assets/img/user.png";
+import cat from "../../assets/img/image 6.png";
+import me from "../../assets/img/pp.jpg";
+import { profileAPI } from "../../api/api";
 import {
   isFulfilledAction,
   isPendingAction,
@@ -28,6 +23,12 @@ export interface ProfileState {
   profile: TProfile | null;
   metaStatus: "idle" | "loading" | "failed";
   message: any;
+  selectUserDialog: {
+    id: number | undefined;
+    username: string | undefined;
+    photo: string | undefined;
+  } | null;
+
   meta: {
     fetching: boolean;
     creating: boolean;
@@ -72,6 +73,7 @@ const initialState: ProfileState = {
   profile: null,
   metaStatus: "idle",
   message: "",
+  selectUserDialog: null,
   meta: {
     fetching: false,
     creating: false,
@@ -92,6 +94,9 @@ export const profileSlice = createSlice({
     },
     setUserProfile: (state, action) => {
       state.profile = action.payload;
+    },
+    setSelectUser: (state, action) => {
+      state.selectUserDialog = action.payload;
     },
     setAuthUser: (state, action) => {
       state.authUser = action.payload;
@@ -134,7 +139,7 @@ export const profileSlice = createSlice({
       state.profile = payload;
       state.meta.fetching = false;
     });
-    builder.addCase(fetchUserProfile.rejected, (state, { payload }) => {
+    builder.addCase(fetchUserProfile.rejected, (state) => {
       state.meta.fetching = false;
     });
     // ADD_PHOTO
@@ -145,7 +150,7 @@ export const profileSlice = createSlice({
       if (state.profile) state.profile.photos = payload.data.photos;
       state.meta.fetching = false;
     });
-    builder.addCase(fetchUpdatePhoto.rejected, (state, { payload }) => {
+    builder.addCase(fetchUpdatePhoto.rejected, (state) => {
       state.meta.fetching = false;
     });
     // UPDATE_STATUS
@@ -156,7 +161,7 @@ export const profileSlice = createSlice({
       state.status = payload;
       state.meta.fetching = false;
     });
-    builder.addCase(fetchUpdateStatus.rejected, (state, { payload }) => {
+    builder.addCase(fetchUpdateStatus.rejected, (state) => {
       state.meta.fetching = false;
     });
     // EDIT_PROFILE
@@ -167,7 +172,7 @@ export const profileSlice = createSlice({
       state.meta.fetching = false;
       state.profile = { ...state.profile, ...payload };
     });
-    builder.addCase(fetchEditProfile.rejected, (state, { payload }) => {
+    builder.addCase(fetchEditProfile.rejected, (state) => {
       state.meta.fetching = false;
     });
     // MATCHER
@@ -220,17 +225,14 @@ export const fetchUpdateStatus = createAsyncThunk<
   string,
   string,
   { rejectValue: string }
->(
-  "profileReducer/fetchUpdateStatus",
-  async (status, { rejectWithValue, dispatch }) => {
-    try {
-      await profileAPI.updateStatus(status);
-      return status;
-    } catch (e: any) {
-      return rejectWithValue(e.message);
-    }
+>("profileReducer/fetchUpdateStatus", async (status, { rejectWithValue }) => {
+  try {
+    await profileAPI.updateStatus(status);
+    return status;
+  } catch (e: any) {
+    return rejectWithValue(e.message);
   }
-);
+});
 
 export const fetchUpdatePhoto = createAsyncThunk<
   { data: { photos: { small: string; large: string } } },
@@ -257,17 +259,14 @@ export const fetchEditProfile = createAsyncThunk<
     fullName: string;
   },
   { rejectValue: string }
->(
-  "profileReducer/fetchEditProfile",
-  async (profile, { rejectWithValue, dispatch }) => {
-    try {
-      await profileAPI.saveProfile(profile);
-      return profile;
-    } catch (e: any) {
-      return rejectWithValue(e.message);
-    }
+>("profileReducer/fetchEditProfile", async (profile, { rejectWithValue }) => {
+  try {
+    await profileAPI.saveProfile(profile);
+    return profile;
+  } catch (e: any) {
+    return rejectWithValue(e.message);
   }
-);
+});
 
 export const { actions: profileActions, reducer: profileReducer } =
   profileSlice;

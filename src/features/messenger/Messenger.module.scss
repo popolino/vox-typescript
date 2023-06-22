@@ -9,13 +9,20 @@
 }
 .left-container {
   width: 50rem;
-  padding: 0.5rem 2rem 0.5rem 0;
+  padding: 0.5rem ;
 }
 .search {
   display: flex;
   gap: 1.5rem;
   padding: 1rem 4rem 1rem 2rem;
   align-items: center;
+  width: max-content;
+  @media (max-width:480px)  {
+    width: 100%;
+  }
+  & > svg{
+    width: 3.5rem;
+  }
   & > div {
     padding-left: 2rem;
     height: 3.5rem;
@@ -44,8 +51,37 @@
   padding: 3rem 1.5rem;
   transition: 0.3s ease-in-out;
   border-radius: 1.2rem;
-
 }
+.active, .active:hover{
+  background: var(--blue)!important;
+  & > div{
+    & > p{
+      color: var(--white);
+    }
+  }
+}
+.empty{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--subtext);
+}
+.dialog-search{
+  max-width: 42rem;
+  min-width: 20rem;
+  width: 100%;
+  padding: 1.4rem 3rem;
+  background-color: var(--background);
+  border-radius: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+
 .user-container:hover {
   background-color: var(--hover);
 }
@@ -58,8 +94,10 @@
   & > div {
     display: flex;
     width: 100%;
+    gap: 1rem;
   }
   & > svg {
+    height: 3rem;
     transform: rotate(90deg);
   }
 }
@@ -71,6 +109,9 @@
   justify-content: space-between;
   padding: 1rem 1.5rem;
   margin-bottom: 2rem;
+  @media  (max-width: 480px) {
+    margin-bottom: 7rem;
+  }
   & > svg {
     width: 2.5rem;
   }
@@ -96,4 +137,15 @@
   justify-content: space-between;
   width: 100%;
   background-color: var(--background);
+
+}
+.arrow{
+  width: 4rem;
+  height: 4rem;
+  padding: 0.2rem;
+  & > svg{
+    fill: var(--subtext);
+    width: 100%;
+    transform: rotate(90deg);
+  }
 }

@@ -7,11 +7,11 @@ type TPostProps = {
   avatar: string;
   online: string;
   postComment: string;
-  postPic: string;
+  postPic: string | null;
   likes: number;
   comments: number;
   reposts: number;
-  profile: TProfile;
+  profile: TProfile | null;
 };
 
 const Post: React.FC<TPostProps> = ({

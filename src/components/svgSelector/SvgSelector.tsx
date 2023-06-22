@@ -160,7 +160,6 @@ const SvgSelector: React.FC<TSvgSelectorProps> = ({ id, className, style }) => {
         height="25"
         viewBox="0 0 34 35"
         fill="none"
-        xmlns="http://www.w3.org/2000/svg"
         strokeWidth="0.1"
       >
         <rect y="13.5" width="8" height="8" rx="4" fill="#84909F" />

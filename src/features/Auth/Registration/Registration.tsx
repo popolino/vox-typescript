@@ -3,7 +3,7 @@ import classes from "../Auth.module.scss";
 import { NavLink } from "react-router-dom";
 import { TextField } from "@mui/material";
 
-const Registration = () => {
+const Registration: React.FC = () => {
   return (
     <>
       <div className={classes.title}>

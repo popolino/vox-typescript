@@ -1,15 +1,11 @@
 import React from "react";
 import classes from "./Header.module.scss";
-import LeftSidebar from "./LeftSidebar/LeftSidebar";
-import Container from "./Container/Container";
-import RightSidebar from "./RightSidebar/RightSidebar";
-import { TProfile } from "../profile/Profile.types";
 import { useBoundActions } from "../../app/store";
-import { fetchAuth, fetchLogout } from "../Auth/AuthSlice";
-import { fetchFriends } from "../users/usersSlice";
-import { appActions, initializeAppThunk } from "../../AppSlice";
-import { profileActions } from "../profile/ProfileSlice";
 import { useAppSelector } from "../../app/hooks";
+import LeftSidebar from "./left-sidebar/LeftSidebar";
+import Container from "./container/Container";
+import RightSidebar from "./right-sidebar/RightSidebar";
+import { fetchLogout } from "../auth/AuthSlice";
 
 export type THeaderProps = {
   currentPage: string;

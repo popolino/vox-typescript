@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./Profile.module.scss";
-import ProfileHeader from "./ProfileHeader/ProfileHeader";
-import NewPost from "./NewPost/NewPost";
-import Wall from "./Wall/Wall";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import ProfileHeader from "./profile-header/ProfileHeader";
+import NewPost from "./new-post/NewPost";
+import Wall from "./wall/Wall";
+import { useAppSelector } from "../../app/hooks";
 import { useBoundActions } from "../../app/store";
-import { useSnackbar } from "notistack";
 import {
   fetchEditProfile,
   fetchStatus,
@@ -14,11 +13,11 @@ import {
   fetchUserProfile,
   profileActions,
 } from "./ProfileSlice";
-import { fetchAuth } from "../Auth/AuthSlice";
+import { fetchAuth } from "../auth/AuthSlice";
 import { useParams } from "react-router-dom";
-import useClickAway from "../../components/useClickAway/useClickAway";
 import { fetchFriends } from "../users/usersSlice";
-import ProfilePending from "./ProfilePending/ProfilePending";
+import ProfilePending from "./profile-pending/ProfilePending";
+import clsx from "clsx";
 
 const allActions = {
   fetchUserProfile,
@@ -30,7 +29,7 @@ const allActions = {
   fetchFriends,
   ...profileActions,
 };
-const Profile = () => {
+const Profile: React.FC = () => {
   const boundActions = useBoundActions(allActions);
 
   const profile = useAppSelector((state) => state.profileReducer.profile);
@@ -71,6 +70,13 @@ const Profile = () => {
       fullName,
     });
   };
+  const onNavigateToMessenger = (
+    id: number | undefined,
+    username: string | undefined,
+    photo: string | undefined
+  ) => {
+    boundActions.setSelectUser({ id: id, username: username, photo: photo });
+  };
 
   const currentId: string | undefined = useParams().userId;
   useEffect(() => {
@@ -83,7 +89,7 @@ const Profile = () => {
   }, [currentId, authData]);
   if (metaStatus === "idle")
     return (
-      <div className={classes.container}>
+      <div className={clsx(classes.container, "scrollbar")}>
         <ProfileHeader
           status={status}
           newStatus={newStatus}
@@ -93,6 +99,7 @@ const Profile = () => {
           handleProfileEditMode={handleProfileEditMode}
           onMainPhotoSelected={onMainPhotoSelected}
           handleFetchDataForm={handleFetchDataForm}
+          onNavigateToMessenger={onNavigateToMessenger}
           profile={profile}
           owner={owner}
           friends={friends}

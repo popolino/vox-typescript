@@ -24,7 +24,7 @@ export type TPost = {
   avatar: string;
   online: string;
   postComment: string;
-  postPic: File | null | string;
+  postPic: null | string;
   likes: number;
   comments: number;
   reposts: number;

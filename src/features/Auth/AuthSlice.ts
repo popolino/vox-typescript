@@ -1,10 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../../app/store";
-import cat from "../../img/pp.jpg";
-import { authAPI, profileAPI, usersAPI } from "../../api/api";
-import { usersSlice } from "../users/usersSlice";
-import actions from "redux-form/lib/actions";
-import { profileSlice } from "../profile/ProfileSlice";
+import { authAPI } from "../../api/api";
 import { TAuth } from "./Auth.types";
 
 export interface ProfileState {
@@ -46,9 +41,6 @@ export const authSlice = createSlice({
     setCaptchaURL: (state, action) => {
       state.captchaURL = action.payload;
     },
-    // setUserProfile: (state, action) => {
-    //   state.profile = action.payload;
-    // },
   },
   extraReducers: (builder) => {
     // FETCH
@@ -59,7 +51,7 @@ export const authSlice = createSlice({
       state.authData = payload;
       state.meta.fetching = false;
     });
-    builder.addCase(fetchAuth.rejected, (state, { payload }) => {
+    builder.addCase(fetchAuth.rejected, (state) => {
       state.meta.fetching = false;
     });
   },

@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route, HashRouter } from "react-router-dom";
 import { routes } from "./routes";
 import PrivateLayout from "../layouts/PrivateLayout";
-import Auth from "../features/Auth/Auth";
+import Auth from "../features/auth/Auth";
 import PublicLayout from "../layouts/PublicLayout";
 
 const Router: React.FC = () => {
@@ -23,6 +23,7 @@ const Router: React.FC = () => {
                 />
               ))}
             <Route path="/auth/*" element={<Auth />} />
+            <Route path="/messenger/test" element={<div>sfs</div>} />
           </Route>
           <Route element={<PrivateLayout />}>
             {routes

@@ -1,7 +1,5 @@
-// @ts-ignore
 import classes from "./Users.module.scss";
-import User from "./User/User";
-import avatar from "../../img/user.png";
+import avatar from "../../assets/img/user.png";
 import * as React from "react";
 import {
   fetchUsers,
@@ -10,13 +8,14 @@ import {
   usersActions,
 } from "./usersSlice";
 import { useAppSelector } from "../../app/hooks";
-import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useBoundActions } from "../../app/store";
-import Paginator from "../../components/Paginator/Paginator";
+import Paginator from "../../components/paginator/Paginator";
 import { profileActions } from "../profile/ProfileSlice";
 import { IconButton } from "@mui/material";
 import SvgSelector from "../../components/svgSelector/SvgSelector";
+import clsx from "clsx";
+import User from "./user/User";
 
 const allActions = {
   fetchUsers,
@@ -26,7 +25,7 @@ const allActions = {
   ...profileActions,
 };
 
-const Users = () => {
+const Users: React.FC = () => {
   const boundActions = useBoundActions(allActions);
 
   const users = useAppSelector((state) => state.usersReducer.users);
@@ -89,7 +88,7 @@ const Users = () => {
         />
       )}
       <div className={classes.friends}>
-        <div className={classes.container}>
+        <div className={clsx(classes.container, "scrollbar")}>
           {users.map((user) => (
             <User
               key={user.id}

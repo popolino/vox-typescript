@@ -1,9 +1,9 @@
-import React, { FC } from "react";
+import React from "react";
 import clsx from "clsx";
 import classes from "../Auth.module.scss";
 import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import CustomTextField from "../../../components/CustomTextField/CustomTextField";
+import CustomTextField from "../../../components/custom-text-field/CustomTextField";
 import { NavLink } from "react-router-dom";
 
 type TLoginProps = {

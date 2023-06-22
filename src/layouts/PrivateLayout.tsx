@@ -1,21 +1,18 @@
 import React from "react";
-import classes from "./PublicLayouts.module.scss";
-import Header from "../features/Header/Header";
-import Navigation from "../features/Navigation/Navigation";
-import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { routes } from "../routes/routes";
-import SidebarFriends from "../features/SidebarFriends/SidebarFriends";
-import MobileNavigation from "../features/MobileNavigation/MobileNavigation";
 import { useAppSelector } from "../app/hooks";
+import Header from "../features/header/Header";
+import Navigation from "../features/navigation/Navigation";
+import SidebarFriends from "../features/sidebar-friends/SidebarFriends";
+import MobileNavigation from "../features/mobile-navigation/MobileNavigation";
 
-type TPublicLayoutsProps = {};
-
-const PrivateLayout: React.FC<TPublicLayoutsProps> = ({}) => {
+const PrivateLayout: React.FC = () => {
   const isAuth = useAppSelector((state) => state.authReducer.isAuth);
 
   const headerTitle = useLocation().pathname;
   const currentPage =
-    routes.find((route) => new RegExp(route.path).test(headerTitle))?.path ||
+    routes.find((route) => new RegExp(route.path).test(headerTitle))?.label ||
     "";
 
   if (!isAuth) return <Navigate to={"/auth/login"} />;

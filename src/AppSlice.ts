@@ -1,8 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import cat from "../../img/pp.jpg";
-import { authSlice, fetchAuth } from "./features/Auth/AuthSlice";
-import { TUser } from "./features/users/Users.types";
+import { createSlice } from "@reduxjs/toolkit";
 import { fetchFriends } from "./features/users/usersSlice";
+import { fetchAuth } from "./features/auth/AuthSlice";
 
 export interface ProfileState {
   initialized: boolean;
@@ -32,19 +30,6 @@ export const appSlice = createSlice({
       state.initialized = action.payload;
     },
   },
-  // extraReducers: (builder) => {
-  //   // FETCH
-  //   builder.addCase(fetchUserProfile.pending, (state) => {
-  //     state.meta.fetching = true;
-  //   });
-  //   builder.addCase(fetchUserProfile.fulfilled, (state, { payload }) => {
-  //     state.profile = payload;
-  //     state.meta.fetching = false;
-  //   });
-  //   builder.addCase(fetchUserProfile.rejected, (state, { payload }) => {
-  //     state.meta.fetching = false;
-  //   });
-  // },
 });
 
 export const initializeAppThunk = () => (dispatch: any) => {
