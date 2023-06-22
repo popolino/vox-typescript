@@ -30,20 +30,29 @@
   right: 0;
   left: 0;
   margin: auto;
-  width: 5rem;
-  height: 5rem;
+  width: calc(5rem + 5 * (100vw / 1920));
+  height: calc(5rem + 5 * (100vw / 1920));
 bottom: 2rem;
+  @media(max-width: 1024px){
+    width: calc(8rem + 2 * (100vw / 1920));
+    height: calc(8rem + 2 * (100vw / 1920));
+
+  }
+  @media(max-width: 600px){
+    bottom: 10rem;
+  }
+  @media(max-width: 480px){
+    bottom: 6rem;
+  }
   & > button{
     z-index: 1;
     bottom: 2rem;
     background-color: var(--blue)!important;
     & > svg{
       fill: var(--white);
-      width: 3rem;
+      width: 100%;
       transform: rotate(180deg);
     }
-    @media (max-width: 1024px)  {
-      //right: calc(100vw - 60%);
-    }
+
   }
 }

@@ -1,10 +1,6 @@
 import classes from "./ProfilePending.module.scss";
-import ProfileHeader from "../ProfileHeader/ProfileHeader";
-import NewPost from "../NewPost/NewPost";
-import Wall from "../Wall/Wall";
 import React from "react";
 import clsx from "clsx";
-import SvgSelector from "../../../components/svgSelector/SvgSelector";
 
 type TProfilePendingProps = {
   owner: boolean | null;

@@ -18,7 +18,7 @@ const allActions = {
   initializeAppThunk,
 };
 
-function App() {
+const App:React.FC = () => {
   const boundActions = useBoundActions(allActions);
 
   const initialized = useAppSelector((state) => state.appReducer.initialized);

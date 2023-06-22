@@ -2,8 +2,11 @@
   box-shadow: 0 0  3rem rgba(0, 0, 0, 0.15);
   position: absolute;
   z-index: 1;
-  bottom: 3rem;
-  right: 40%;
+  bottom: 5rem;
+  right: 0;
+  margin: auto;
+  width: 40rem;
+  left: 0;
   background: var(--opacity_background);
   border-radius: 2.4rem;
   padding: 1.5rem 3rem 2rem;
@@ -12,6 +15,12 @@
   align-items: center;
   gap: 1rem;
   backdrop-filter: blur(2px);
+  @media (max-width: 600px) {
+    bottom: 12rem;
+  }
+  @media (max-width: 480px) {
+    bottom: 8rem;
+  }
   .top-panel{
     display: flex;
     gap: 1.5rem;
@@ -70,5 +79,4 @@
     & > svg{
       width: 3rem;
     }
-
 }
