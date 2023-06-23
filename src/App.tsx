@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./assets/scss/global.scss";
 import "./assets/scss/reset.scss";
-import "../src/assets/overriders.scss";
+import "./assets/overriders.scss";
 import Router from "./routes/Router";
 import { useBoundActions } from "./app/store";
 import { useAppSelector } from "./app/hooks";
