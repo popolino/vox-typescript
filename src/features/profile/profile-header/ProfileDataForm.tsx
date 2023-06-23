@@ -111,7 +111,7 @@ const ProfileDataForm: React.FC<TProfileDataProps> = ({
               <Controller
                 name="lookingForAJob"
                 control={control}
-                render={({ field: { onChange, onBlur} }) => (
+                render={({ field: { onChange, onBlur } }) => (
                   <input
                     type="checkbox"
                     defaultChecked={profile?.lookingForAJob}

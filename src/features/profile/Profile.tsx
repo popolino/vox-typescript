@@ -109,7 +109,7 @@ const Profile: React.FC = () => {
       </div>
     );
   else if (metaStatus === "loading") return <ProfilePending owner={owner} />;
-  else return <div>404</div>;
+  else return <div>error</div>;
 };
 
 export default Profile;

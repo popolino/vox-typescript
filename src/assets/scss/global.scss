@@ -50,6 +50,22 @@ main {
 .container-main {
   position: relative;
   width: 100%;
+  border-radius: 2rem;
+  overflow: hidden;
+}
+.main-svg{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  & > svg{
+  width: 20rem;
+
+  }
+  & > circle{
+
+  fill: var(--foreground);
+  }
 }
 .sidebar__profile_photo {
   border-radius: 50%;
