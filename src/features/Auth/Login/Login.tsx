@@ -92,8 +92,8 @@ const Login: React.FC<TLoginProps> = ({ handleFetchLogin, captchaURL }) => {
               rules={{
                 required: "Password is required",
                 minLength: {
-                  value: 6,
-                  message: "Minimum 6 symbols",
+                  value: 3,
+                  message: "Minimum 3 symbols",
                 },
               }}
               render={({
