@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/vox-typescript/static/css/main.769f9821.css",
-    "main.js": "/vox-typescript/static/js/main.5d7ca57a.js",
+    "main.css": "/vox-typescript/static/css/main.f61612f5.css",
+    "main.js": "/vox-typescript/static/js/main.d99363c9.js",
     "static/js/787.a63ff571.chunk.js": "/vox-typescript/static/js/787.a63ff571.chunk.js",
     "static/media/image 6.png": "/vox-typescript/static/media/image 6.f3f557104814045c23fb.png",
     "static/media/welcome.png": "/vox-typescript/static/media/welcome.99155aa4b6c769347020.png",
@@ -9,12 +9,12 @@
     "static/media/user.png": "/vox-typescript/static/media/user.a6143582309785dca610.png",
     "static/media/pp.jpg": "/vox-typescript/static/media/pp.a553a1225a76e7c7cee0.jpg",
     "index.html": "/vox-typescript/index.html",
-    "main.769f9821.css.map": "/vox-typescript/static/css/main.769f9821.css.map",
-    "main.5d7ca57a.js.map": "/vox-typescript/static/js/main.5d7ca57a.js.map",
+    "main.f61612f5.css.map": "/vox-typescript/static/css/main.f61612f5.css.map",
+    "main.d99363c9.js.map": "/vox-typescript/static/js/main.d99363c9.js.map",
     "787.a63ff571.chunk.js.map": "/vox-typescript/static/js/787.a63ff571.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.769f9821.css",
-    "static/js/main.5d7ca57a.js"
+    "static/css/main.f61612f5.css",
+    "static/js/main.d99363c9.js"
   ]
 }
