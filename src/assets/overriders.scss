@@ -1,39 +1,37 @@
 .input {
-  .css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+  .MuiFormControl-root{
     width: 100%;
   }
 
-  .css-1x51dt5-MuiInputBase-input-MuiInput-input {
+  .MuiInputBase-input {
     font-size: 1.4rem;
     color: var(--subtext-dark);
   }
 
-  .css-1c2i806-MuiFormLabel-root-MuiInputLabel-root {
+  .MuiFormLabel-root {
     font-size: 1.2rem;
   }
 
-  .css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root {
+  .MuiInputLabel-root {
     font-size: 1.4rem;
   }
-  .css-v4u5dn-MuiInputBase-root-MuiInput-root:hover:before {
+  .MuiInputBase-root:hover:before {
     border-bottom: 2px solid var(--subtext) !important;
   }
 }
-.css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
-  width: 100%;
-}
+
 .remember-checkbox {
-  .css-j204z7-MuiFormControlLabel-root .MuiFormControlLabel-label {
+  .MuiFormControlLabel-root .MuiFormControlLabel-label {
     color: var(--subtext-dark);
     margin-top: 0.2rem;
   }
 }
 
 .mui-select{
-  .css-q0jhri-MuiInputBase-root-MuiInput-root:focus{
+  .MuiInputBase-root:focus{
     background-color: transparent!important;
   }
-  .css-q0jhri-MuiInputBase-root-MuiInput-root:hover:before{
+  .MuiInput-root:hover:before{
     border-bottom: 2px solid var(--subtext)!important;
   }
 }

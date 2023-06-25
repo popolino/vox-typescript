@@ -8,7 +8,7 @@ import Auth from "../features/auth/Auth";
 export const routes = [
   {
     path: "profile",
-    label: "Profile",
+    label: "profile",
     iconId: "profile",
     param: "userId",
     display: false,
@@ -27,18 +27,8 @@ export const routes = [
     component: <Auth />,
   },
   {
-    path: "",
-    label: "Profile",
-    iconId: "profile",
-    param: "",
-    display: false,
-    showOnMobile: false,
-    public: false,
-    component: <Profile />,
-  },
-  {
     path: "profile",
-    label: "Profile",
+    label: "profile",
     iconId: "profile",
     param: "",
     display: false,
@@ -48,7 +38,7 @@ export const routes = [
   },
   {
     path: "users",
-    label: "Users",
+    label: "users",
     iconId: "friends",
     param: "",
     display: true,
@@ -58,10 +48,20 @@ export const routes = [
   },
   {
     path: "messenger/*",
-    label: "Messenger",
+    label: "messenger",
     iconId: "messenger",
     param: "",
     display: false,
+    showOnMobile: false,
+    public: false,
+    component: <Messenger />,
+  },
+  {
+    path: "messenger",
+    label: "messenger",
+    iconId: "messenger",
+    param: "",
+    display: true,
     showOnMobile: true,
     public: false,
     component: <Messenger />,
@@ -69,7 +69,7 @@ export const routes = [
 
   {
     path: "communities",
-    label: "Communities",
+    label: "communities",
     iconId: "communities",
     param: "",
     display: true,
@@ -79,7 +79,7 @@ export const routes = [
   },
   {
     path: "music",
-    label: "Music",
+    label: "music",
     iconId: "music",
     param: "",
     display: true,
@@ -89,7 +89,7 @@ export const routes = [
   },
   {
     path: "videos",
-    label: "Videos",
+    label: "videos",
     iconId: "videos",
     param: "",
     display: true,
@@ -99,7 +99,7 @@ export const routes = [
   },
   {
     path: "feed",
-    label: "Feed",
+    label: "feed",
     iconId: "feed",
     param: "",
     display: true,
@@ -109,7 +109,7 @@ export const routes = [
   },
   {
     path: "settings",
-    label: "Settings",
+    label: "settings",
     iconId: "settings",
     param: "",
     display: true,

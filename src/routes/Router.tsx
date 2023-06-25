@@ -4,6 +4,7 @@ import { routes } from "./routes";
 import PrivateLayout from "../layouts/PrivateLayout";
 import Auth from "../features/auth/Auth";
 import PublicLayout from "../layouts/PublicLayout";
+import Profile from "../features/profile/Profile";
 
 const Router: React.FC = () => {
   return (
@@ -37,6 +38,10 @@ const Router: React.FC = () => {
                   element={route.component}
                 />
               ))}
+            <Route
+              path="/"
+              element={<Profile/>}
+            />
           </Route>
         </Routes>
       </HashRouter>

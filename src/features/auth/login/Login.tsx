@@ -40,7 +40,6 @@ const Login: React.FC<TLoginProps> = ({ handleFetchLogin, captchaURL }) => {
     <>
       <div className={classes.title}>
         <h1>Welcome back</h1>
-        <p>ppp</p>
         <p>Please enter your details</p>
       </div>
       <div className={classes.body}>

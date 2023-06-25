@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { authAPI } from "../../api/api";
 import { TAuth } from "./Auth.types";
+import {fetchFriends} from "../users/usersSlice";
 
 export interface ProfileState {
   isAuth: boolean;
@@ -99,6 +100,7 @@ export const fetchLogin = createAsyncThunk(
       );
       if (response.data.resultCode === 0) {
         dispatch(fetchAuth());
+        dispatch(fetchFriends())
       }
       if (response.data.resultCode === 10) {
         dispatch(fetchCaptcha());

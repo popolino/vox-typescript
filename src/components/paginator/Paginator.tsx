@@ -25,7 +25,7 @@ const Paginator: React.FC<TProps> = ({
 }) => {
   let pageCountSize = Math.ceil(totalUsersCount / pageCount);
   let pages: Array<number> = [];
-  for (let i = 5; i <= pageCountSize && i <= 10; i++) {
+  for (let i = 1; i <= pageCountSize && i <= 5; i++) {
     pages.push(i);
   }
   const lastElementOnPage =

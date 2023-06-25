@@ -7,6 +7,7 @@ export type TContainer_NavigationProps = {
 };
 
 const Container: React.FC<TContainer_NavigationProps> = ({ currentPage }) => {
+  console.log(currentPage)
   return (
     <div className={classes.container}>
       <div className={classes.tittle}>{currentPage}</div>

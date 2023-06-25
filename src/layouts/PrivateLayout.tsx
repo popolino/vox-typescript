@@ -11,10 +11,11 @@ const PrivateLayout: React.FC = () => {
   const isAuth = useAppSelector((state) => state.authReducer.isAuth);
 
   const headerTitle = useLocation().pathname;
+
   const currentPage =
     routes.find((route) => new RegExp(route.path).test(headerTitle))?.label ||
-    "";
-
+    routes[0].label;
+  console.log(headerTitle)
   if (!isAuth) return <Navigate to={"/auth/login"} />;
   return (
     <>
