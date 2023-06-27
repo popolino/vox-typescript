@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { TUser } from "./Users.types";
 import { usersAPI } from "../../api/api";
-import { RootState } from "../../app/store";
 
 export interface IFriendsState {
   users: TUser[];
   friends: TUser[];
+  foundUser: TUser[];
   totalUsersCount: number;
   currentPage: number;
   status: "idle" | "loading" | "failed";
@@ -20,6 +20,7 @@ export interface IFriendsState {
 export const initialState: IFriendsState = {
   users: [],
   friends: [],
+  foundUser: [],
   totalUsersCount: 0,
   currentPage: 1,
   status: "idle",
@@ -44,6 +45,12 @@ export const usersSlice = createSlice({
     setFriends: (state, action) => {
       state.friends = action.payload;
     },
+    setFoundUser: (state, action) => {
+      state.foundUser = action.payload;
+    },
+    cleanFoundUser: (state) => {
+      state.foundUser = [];
+    },
   },
   extraReducers: (builder) => {
     // FETCH
@@ -54,7 +61,7 @@ export const usersSlice = createSlice({
       state.users = payload;
       state.meta.fetching = false;
     });
-    builder.addCase(fetchUsers.rejected, (state, { payload }) => {
+    builder.addCase(fetchUsers.rejected, (state) => {
       state.meta.fetching = false;
     });
     // FOLLOW
@@ -73,7 +80,7 @@ export const usersSlice = createSlice({
       state.meta.fetching = false;
     });
 
-    builder.addCase(followToUser.rejected, (state, { payload }) => {
+    builder.addCase(followToUser.rejected, (state) => {
       state.meta.fetching = false;
     });
     // UNFOLLOW
@@ -87,7 +94,7 @@ export const usersSlice = createSlice({
       state.friends = state.friends.filter((friend) => friend.id !== payload);
       state.meta.fetching = false;
     });
-    builder.addCase(unFollowToUser.rejected, (state, { payload }) => {
+    builder.addCase(unFollowToUser.rejected, (state) => {
       state.meta.fetching = false;
     });
   },
@@ -146,5 +153,21 @@ export const fetchFriends = createAsyncThunk<
     return rejectWithValue(e.message);
   }
 });
+export const fetchFoundUser = createAsyncThunk<
+  TUser[],
+  string,
+  { rejectValue: string }
+>(
+  "usersReducer/fetchFoundUser",
+  async (username, { rejectWithValue, dispatch }) => {
+    try {
+      const response: any = await usersAPI.getFindUser(username);
+      dispatch(usersSlice.actions.setFoundUser(response.data.items));
+      return response.data.items;
+    } catch (e: any) {
+      return rejectWithValue(e.message);
+    }
+  }
+);
 
 export const { actions: usersActions, reducer: usersReducer } = usersSlice;

@@ -4,6 +4,10 @@ import Messenger from "../features/messenger/Messenger";
 import NotFoundPage from "../components/not-found-page/NotFoundPage";
 import React from "react";
 import Auth from "../features/auth/Auth";
+import { withSuspense } from "../hooks/withSuspense/withSuspense";
+
+const ChatPage = React.lazy(() => import("../features/chat/ChatPage"));
+const SuspendedChatPage = withSuspense(ChatPage);
 
 export const routes = [
   {
@@ -26,6 +30,7 @@ export const routes = [
     public: true,
     component: <Auth />,
   },
+
   {
     path: "profile",
     label: "profile",
@@ -55,6 +60,16 @@ export const routes = [
     showOnMobile: false,
     public: false,
     component: <Messenger />,
+  },
+  {
+    path: "chat",
+    label: "chat",
+    iconId: "chat",
+    param: "",
+    display: true,
+    showOnMobile: false,
+    public: false,
+    component: <SuspendedChatPage />,
   },
   {
     path: "messenger",

@@ -1,4 +1,5 @@
 .container {
+  position: relative;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -14,18 +15,30 @@
   padding: 0 7rem;
 }
 
-
+.mobile-search{
+  width: calc(100vw - 23rem);
+  position: absolute;
+  z-index: 2;
+}
 .search-svg{
   stroke-miterlimit: 10;
   width: 2rem;
 }
-
+.search-svg:hover{
+  fill: var(--blue);
+  stroke: var(--blue);
+}
 
 .svg{
   margin: 0 1rem 0 0;
   display: flex;
   align-items: center;
+  & > svg{
+    stroke-miterlimit: 10;
+    width: 2rem;
+  }
 }
+
 @media all and (max-width: 480px){
 
   .search-svg{

@@ -19,6 +19,9 @@ export const usersAPI = {
   getFriends() {
     return instance.get<TUser[]>(`users?friend=true`);
   },
+  getFindUser(username: string) {
+    return instance.get<TUser[]>(`users?term=${username}`);
+  },
   postFollowUser(id: number) {
     return instance.post(`follow/${id}`);
   },

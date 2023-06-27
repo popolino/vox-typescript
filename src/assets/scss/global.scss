@@ -12,6 +12,8 @@
   --gray: #ccd5de;
   --border-gray: #cdcdcd;
   --opacity_gray: rgba(242, 242, 242, 0.8);
+  --opacity: rgba(255, 255, 255, 0.5);
+  --opacity_blue: #418eeac4;
   --opacity_background: rgba(255, 255, 255, 0.8);
   /* ------ THEME ------ */
   --auth-background: var(--cadet-blue-crayola);
@@ -24,6 +26,8 @@
   --background: var(--light);
   --separator-common: var(--gray);
   --hover: var(--opacity_gray);
+  --hover-light: var(--opacity);
+  --hover-blue: var(--opacity_blue);
   --title: var(--black);
   --background-transition: var(--opacity_background);
   --border: var(--border-gray);
@@ -53,18 +57,16 @@ main {
   border-radius: 2rem;
   overflow: hidden;
 }
-.main-svg{
+.main-svg {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  & > svg{
-  width: 20rem;
-
+  & > svg {
+    width: 20rem;
   }
-  & > circle{
-
-  fill: var(--foreground);
+  & > circle {
+    fill: var(--foreground);
   }
 }
 .sidebar__profile_photo {
@@ -91,7 +93,6 @@ main {
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
-
 .about-user {
   padding: 0.1rem 1rem 0;
   display: flex;
@@ -111,6 +112,9 @@ main {
   color: var(--subtext);
   font-weight: 500;
   padding: 0.5rem 0 0;
+  word-wrap: break-word;
+  white-space: normal;
+  line-height: 1.3;
 }
 .post-container {
   position: relative;
@@ -174,6 +178,9 @@ main {
   border-radius: 1rem;
   padding: 1rem 0;
 }
+.button-blue:hover, .button-blue-small:hover{
+  background: var(--opacity_blue);
+}
 .button-blue:disabled,
 .button-gray:disabled {
   background: var(--background-light);
@@ -207,7 +214,7 @@ main {
 .preloader-profile {
   height: 0;
 }
-.form-summary-error{
+.form-summary-error {
   border: 1px solid red;
   padding: 2rem;
   color: red;
@@ -220,13 +227,11 @@ main {
   left: 14rem;
   cursor: pointer;
   @media (max-width: 480px) {
-
-transform: translateX(-8rem);
+    transform: translateX(-8rem);
   }
 }
 .custom-file-input::-webkit-file-upload-button {
   visibility: hidden;
-
 }
 
 .custom-file-input:hover::before {
@@ -244,11 +249,6 @@ transform: translateX(-8rem);
   border-radius: 1.5rem;
   display: inline-flex;
   align-items: center;
-  @media (max-width:480px ) {
-      width: 2rem;
-      padding: 1rem 3rem;
-      background-color: transparent;
-  }
 }
 .search-input {
   background-color: transparent;
@@ -256,14 +256,99 @@ transform: translateX(-8rem);
   font-size: 1.7rem;
   width: 100%;
   color: var(--subtext);
-  @media (max-width:480px ) {
-      display: none;
+}
+.search-hide {
+  @media (max-width: 480px) {
+    display: none;
   }
 }
-.search-input::placeholder{
+.search-input::placeholder {
   color: var(--subtext);
   font-size: 1.6rem;
   font-weight: 600;
-
 }
+.messenger-chat-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  height: 100%;
+  border: 0.3rem solid var(--background);
+  border-radius: 2rem;
+  overflow: hidden;
+}
+.text-field-container {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  margin-bottom: 2rem;
+  @media (max-width: 480px) {
+    margin-bottom: 7rem;
+  }
+  & > div:first-child {
+    & > button {
+      width: 5rem;
+      height: 5rem;
+    }
+  }
+  & > div:last-child {
+    width: max-content;
+    & > button {
+      & > svg {
+        width: 2.5rem;
+      }
+    }
+    & > button:hover {
+      & > svg {
+        stroke: var(--blue);
+        fill: var(--blue);
+      }
+    }
+  }
 
+  & > div {
+    display: flex;
+    width: 100%;
+    & > button {
+      & > svg {
+        width: 2.5rem;
+      }
+    }
+    & > button:hover {
+      & > svg {
+        stroke: var(--blue);
+      }
+    }
+    & > textarea {
+      background-color: transparent;
+      width: 100%;
+      padding-left: 1rem;
+    }
+    & > textarea::placeholder {
+      padding-left: 1rem;
+    }
+  }
+}
+.user-container {
+  background-color: white;
+  height: 5rem;
+  width: 100%;
+  align-items: center;
+  display: inline-flex;
+  padding: 3rem 1.5rem;
+  transition: 0.3s ease-in-out;
+  border-radius: 1.2rem;
+  & > div:first-child {
+    overflow: hidden;
+    width: 5rem;
+    height: 5rem;
+    & > img {
+      width: 5rem;
+      height: 5rem;
+    }
+  }
+}
+.user-container:hover {
+  background-color: var(--hover);
+}

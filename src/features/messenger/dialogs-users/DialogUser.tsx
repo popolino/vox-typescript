@@ -28,7 +28,7 @@ const DialogUser: React.FC<TDialogUser> = ({
 }) => {
   return (
     <div
-      className={clsx("user", classes["user-container"], {
+      className={clsx("user", "user-container", {
         [classes.active]: selectUserDialog && selectUserDialog.id === id,
       })}
       onClick={() => setSelectUserDialog(id, username, photo)}

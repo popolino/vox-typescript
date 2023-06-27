@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import classes from "./Messenger.module.scss";
 import { Route, Routes } from "react-router-dom";
 import DialogWindow from "./DialogWindow";
 import { useAppSelector } from "../../app/hooks";
@@ -40,7 +39,7 @@ const Messenger: React.FC = () => {
     };
   }, []);
   return (
-    <div className={classes.container}>
+    <div className="messenger-chat-container">
       {!isWideScreen && (
         <Routes>
           <Route

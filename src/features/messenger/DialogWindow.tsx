@@ -4,7 +4,7 @@ import avatar from "../../assets/img/user.png";
 import { NavLink, useNavigate } from "react-router-dom";
 import SvgSelector from "../../components/svgSelector/SvgSelector";
 import React from "react";
-import { IconButton } from "@mui/material";
+import { IconButton, TextareaAutosize } from "@mui/material";
 
 type TDialogWindow = {
   selectUserDialog: {
@@ -53,14 +53,20 @@ const DialogWindow: React.FC<TDialogWindow> = ({
                 <SvgSelector id="more" />
               </div>
             )}
-            <div>
-              <div className={classes.dialog} />
-              <div className={classes["text-field-container"]}>
-                <div>
+            <div className="text-field-container">
+              <div>
+                <IconButton>
                   <SvgSelector id="clip" />
-                  <textarea name="" id="" placeholder="Message" />
-                </div>
-                <SvgSelector id="image" />
+                </IconButton>
+                <TextareaAutosize placeholder="Message" maxRows="3" />
+              </div>
+              <div>
+                <IconButton>
+                  <SvgSelector id="send" />
+                </IconButton>
+                <IconButton>
+                  <SvgSelector id="image" />
+                </IconButton>
               </div>
             </div>
           </>

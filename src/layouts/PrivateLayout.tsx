@@ -15,8 +15,9 @@ const PrivateLayout: React.FC = () => {
   const currentPage =
     routes.find((route) => new RegExp(route.path).test(headerTitle))?.label ||
     routes[0].label;
-  console.log(headerTitle)
+
   if (!isAuth) return <Navigate to={"/auth/login"} />;
+
   return (
     <>
       <Header currentPage={currentPage} />

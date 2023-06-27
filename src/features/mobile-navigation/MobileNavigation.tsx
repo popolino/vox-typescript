@@ -5,9 +5,12 @@ import SvgSelector from "../../components/svgSelector/SvgSelector";
 import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 import { routes } from "../../routes/routes";
-import { TContainer_NavigationProps } from "../header/container/Container";
 
-const MobileNavigation: React.FC<TContainer_NavigationProps> = ({
+type TMobileNavigationProps = {
+  currentPage: string;
+};
+
+const MobileNavigation: React.FC<TMobileNavigationProps> = ({
   currentPage,
 }) => {
   return (

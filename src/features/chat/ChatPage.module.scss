@@ -1,0 +1,55 @@
+.container {
+  flex-direction: column;
+  background: var(--background);
+
+}
+.messages {
+  padding: 0 0.5rem 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-top: 1rem;
+  border-radius: inherit;
+}
+.user {
+  align-items: start;
+  height: 100%;
+  padding: 1rem;
+  width: max-content;
+  max-width: 90rem;
+  @media (max-width: 700px){
+    max-width: 70rem;
+  }
+@media (max-width: 480px) {
+  max-width: 44rem;
+}
+  @media (max-width: 400px) {
+    max-width: 46rem;
+  }
+  & > div {
+    width: 100%;
+  }
+}
+.user:hover{
+  background: var(--hover-light);
+}
+.authUser{
+  display: flex;
+  width: 100%;
+  justify-content: end;
+  & > div:hover{
+    background: var(--opacity_blue);
+  }
+  & > div{
+  background: var(--blue);
+    & > div:last-child{
+      & > p{
+        color: var(--white);
+      }
+    }
+  }
+}
+

@@ -2,6 +2,7 @@ import classes from "./Users.module.scss";
 import avatar from "../../assets/img/user.png";
 import * as React from "react";
 import {
+  fetchFoundUser,
   fetchUsers,
   followToUser,
   unFollowToUser,
@@ -21,6 +22,7 @@ const allActions = {
   fetchUsers,
   followToUser,
   unFollowToUser,
+  fetchFoundUser,
   ...usersActions,
   ...profileActions,
 };
@@ -29,6 +31,7 @@ const Users: React.FC = () => {
   const boundActions = useBoundActions(allActions);
 
   const users = useAppSelector((state) => state.usersReducer.users);
+  const foundUser = useAppSelector((state) => state.usersReducer.foundUser);
   const currentPage = useAppSelector((state) => state.usersReducer.currentPage);
   const totalUsersCount = useAppSelector(
     (state) => state.usersReducer.totalUsersCount
@@ -61,7 +64,6 @@ const Users: React.FC = () => {
   useEffect(() => {
     boundActions.fetchUsers({ currentPage: currentPage, pageCount: pageCount });
   }, []);
-
   return (
     <>
       {!paginationMode && (
@@ -88,20 +90,37 @@ const Users: React.FC = () => {
         />
       )}
       <div className={classes.friends}>
-        <div className={clsx(classes.container, "scrollbar")}>
-          {users.map((user) => (
-            <User
-              key={user.id}
-              setCurrentId={setCurrentId}
-              id={user.id}
-              name={user.name}
-              photos={user.photos.large ? user.photos.large : avatar}
-              followed={user.followed}
-              handleFollowToUser={handleFollowToUser}
-              handleUnFollowToUser={handleUnFollowToUser}
-            />
-          ))}
-        </div>
+        {foundUser.length === 0 ? (
+          <div className={clsx(classes.container, "scrollbar")}>
+            {users.map((user) => (
+              <User
+                key={user.id}
+                setCurrentId={setCurrentId}
+                id={user.id}
+                name={user.name}
+                photos={user.photos.large ? user.photos.large : avatar}
+                followed={user.followed}
+                handleFollowToUser={handleFollowToUser}
+                handleUnFollowToUser={handleUnFollowToUser}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className={clsx(classes.container, "scrollbar")}>
+            {foundUser.map((user) => (
+              <User
+                key={user.id}
+                setCurrentId={setCurrentId}
+                id={user.id}
+                name={user.name}
+                photos={user.photos.large ? user.photos.large : avatar}
+                followed={user.followed}
+                handleFollowToUser={handleFollowToUser}
+                handleUnFollowToUser={handleUnFollowToUser}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </>
   );

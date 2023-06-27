@@ -2,6 +2,7 @@ import React from "react";
 import classes from "./User.module.scss";
 import { NavLink } from "react-router-dom";
 import { clsx } from "clsx";
+import { Avatar } from "@mui/material";
 
 type TUserProps = {
   id: number;
@@ -24,9 +25,10 @@ const User: React.FC<TUserProps> = ({
 }) => {
   return (
     <div className={classes.friend}>
-      <div className={clsx("avatar", classes.avatar)}>
+      <div className={clsx(classes.avatar)}>
         <NavLink to={`/profile/${id}`} onClick={() => setCurrentId(id)}>
-          <img src={photos} alt="" />
+          <Avatar src={photos} />
+          {/*<img src={photos} alt="" />*/}
         </NavLink>
       </div>
       <p>{name}</p>

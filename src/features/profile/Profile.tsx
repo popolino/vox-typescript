@@ -77,7 +77,6 @@ const Profile: React.FC = () => {
   ) => {
     boundActions.setSelectUser({ id: id, username: username, photo: photo });
   };
-
   const currentId: string | undefined = useParams().userId;
   useEffect(() => {
     currentId
