@@ -64,6 +64,17 @@ export const usersSlice = createSlice({
     builder.addCase(fetchUsers.rejected, (state) => {
       state.meta.fetching = false;
     });
+    // FETCH
+    builder.addCase(fetchFoundUser.pending, (state) => {
+      state.meta.fetching = true;
+    });
+    builder.addCase(fetchFoundUser.fulfilled, (state, { payload }) => {
+      state.foundUser = payload;
+      state.meta.fetching = false;
+    });
+    builder.addCase(fetchFoundUser.rejected, (state) => {
+      state.meta.fetching = false;
+    });
     // FOLLOW
     builder.addCase(followToUser.pending, (state) => {
       state.meta.fetching = true;
@@ -72,12 +83,23 @@ export const usersSlice = createSlice({
       const friend: TUser | undefined = state.users.find(
         (user) => user.id === payload
       );
-      if (!friend) return;
-      const i = state.users.indexOf(friend);
-      friend.followed = true;
-      state.users[i] = friend;
-      state.friends.push(friend);
-      state.meta.fetching = false;
+      const findUser: TUser | undefined = state.foundUser.find(
+        (findUser) => findUser.id === payload
+      );
+      if (friend) {
+        const i = state.users.indexOf(friend);
+        friend.followed = true;
+        state.users[i] = friend;
+        state.friends.push(friend);
+      }
+
+      if (findUser) {
+        const j = state.foundUser.indexOf(findUser);
+        findUser.followed = true;
+        state.foundUser[j] = findUser;
+        state.friends.push(findUser);
+        state.meta.fetching = false;
+      }
     });
 
     builder.addCase(followToUser.rejected, (state) => {
@@ -89,6 +111,10 @@ export const usersSlice = createSlice({
     });
     builder.addCase(unFollowToUser.fulfilled, (state, { payload }) => {
       state.users = state.users.map((user) =>
+        user.id === payload ? { ...user, followed: false } : user
+      );
+      state.friends = state.friends.filter((friend) => friend.id !== payload);
+      state.foundUser = state.foundUser.map((user) =>
         user.id === payload ? { ...user, followed: false } : user
       );
       state.friends = state.friends.filter((friend) => friend.id !== payload);
