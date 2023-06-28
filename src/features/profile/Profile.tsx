@@ -39,6 +39,7 @@ const Profile: React.FC = () => {
   const wallData = useAppSelector((state) => state.profileReducer.wallData);
   const friends = useAppSelector((state) => state.usersReducer.friends);
   const metaStatus = useAppSelector((state) => state.profileReducer.metaStatus);
+  const message = useAppSelector((state) => state.profileReducer.message);
 
   const [newStatus, setNewStatus] = useState<string>("");
   const [profileEditMode, setProfileEditMode] = useState<boolean>(false);
@@ -86,6 +87,7 @@ const Profile: React.FC = () => {
         boundActions.fetchUserProfile(authData.data.id) &&
         boundActions.fetchStatus(authData.data.id);
   }, [currentId, authData]);
+  console.log(message.payload);
   if (metaStatus === "idle")
     return (
       <div className={clsx(classes.container, "scrollbar")}>
@@ -108,7 +110,12 @@ const Profile: React.FC = () => {
       </div>
     );
   else if (metaStatus === "loading") return <ProfilePending owner={owner} />;
-  else return <div>error</div>;
+  else
+    return (
+      <div className="error-message">
+        <p>{message.payload}</p>
+      </div>
+    );
 };
 
 export default Profile;

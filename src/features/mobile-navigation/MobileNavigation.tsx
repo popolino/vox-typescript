@@ -6,13 +6,11 @@ import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 import { routes } from "../../routes/routes";
 
-type TMobileNavigationProps = {
-  currentPage: string;
+type TMobileNavigation = {
+  headerTitle: string;
 };
 
-const MobileNavigation: React.FC<TMobileNavigationProps> = ({
-  currentPage,
-}) => {
+const MobileNavigation: React.FC<TMobileNavigation> = ({ headerTitle }) => {
   return (
     <div className={classes.container}>
       {routes
@@ -21,7 +19,7 @@ const MobileNavigation: React.FC<TMobileNavigationProps> = ({
           <NavLink to={"/" + route.path} key={i}>
             <IconButton
               size="large"
-              className={clsx({ [classes.active]: currentPage === route.path })}
+              className={clsx({ [classes.active]: headerTitle === route.path })}
             >
               <SvgSelector id={route.iconId} />
             </IconButton>

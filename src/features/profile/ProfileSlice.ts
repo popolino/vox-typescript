@@ -28,7 +28,6 @@ export interface ProfileState {
     username: string | undefined;
     photo: string | undefined;
   } | null;
-
   meta: {
     fetching: boolean;
     creating: boolean;

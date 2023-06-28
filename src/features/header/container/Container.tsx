@@ -7,25 +7,28 @@ import { IconButton } from "@mui/material";
 import clsx from "clsx";
 
 export type TContainerProps = {
+  username: string;
+  headerTitle: string;
   findMode: boolean;
-  currentPage: string;
   foundUser: TUser[];
+  setUsername: (username: string) => void;
   setFindMode: (findMode: boolean) => void;
   handleFindUser: (username: string) => void;
   cleanFoundUser: () => void;
 };
 
 const Container: React.FC<TContainerProps> = ({
+  username,
+  setUsername,
+  headerTitle,
   findMode,
   foundUser,
-  currentPage,
   setFindMode,
   handleFindUser,
   cleanFoundUser,
 }) => {
   let navigate = useNavigate();
 
-  const [username, setUsername] = useState<string>("");
   const [width, setWidth] = useState(window.innerWidth);
 
   const isWideScreen = width > 480;
@@ -39,7 +42,6 @@ const Container: React.FC<TContainerProps> = ({
     };
   }, []);
   useEffect(() => {
-    console.log(findMode);
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Enter" && findMode && username !== "") {
         handleFindUser(username);
@@ -54,7 +56,7 @@ const Container: React.FC<TContainerProps> = ({
   }, [foundUser, findMode, username]);
   return (
     <div className={classes.container}>
-      <div className={classes.tittle}>{currentPage}</div>
+      <div className={classes.tittle}>{headerTitle}</div>
       {!isWideScreen && !findMode && (
         <IconButton onClick={() => setFindMode(true)}>
           <SvgSelector id="search" className={classes["search-svg"]} />

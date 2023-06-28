@@ -1,8 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { TUser } from "./Users.types";
 import { usersAPI } from "../../api/api";
+import { RootState } from "../../app/store";
 
 export interface IFriendsState {
+  headerTitle: string;
   users: TUser[];
   friends: TUser[];
   foundUser: TUser[];
@@ -18,6 +20,7 @@ export interface IFriendsState {
   };
 }
 export const initialState: IFriendsState = {
+  headerTitle: "profile",
   users: [],
   friends: [],
   foundUser: [],
@@ -51,6 +54,9 @@ export const usersSlice = createSlice({
     cleanFoundUser: (state) => {
       state.foundUser = [];
     },
+    setHeaderTitle: (state, action) => {
+      state.headerTitle = action.payload;
+    },
   },
   extraReducers: (builder) => {
     // FETCH
@@ -59,6 +65,9 @@ export const usersSlice = createSlice({
     });
     builder.addCase(fetchUsers.fulfilled, (state, { payload }) => {
       state.users = payload;
+      if (state.headerTitle !== "users") {
+        state.currentPage = 1;
+      }
       state.meta.fetching = false;
     });
     builder.addCase(fetchUsers.rejected, (state) => {
@@ -132,8 +141,15 @@ export const fetchUsers = createAsyncThunk<
   { rejectValue: string }
 >(
   "usersReducer/fetchUsers",
-  async ({ currentPage, pageCount }, { rejectWithValue, dispatch }) => {
+  async (
+    { currentPage, pageCount },
+    { rejectWithValue, dispatch, getState }
+  ) => {
     try {
+      const globalState = getState() as RootState;
+      if (globalState.usersReducer.headerTitle !== "users") {
+        await usersAPI.getUsers(currentPage, pageCount);
+      }
       const response: any = await usersAPI.getUsers(currentPage, pageCount);
       dispatch(usersSlice.actions.setTotalUsersCount(response.data.totalCount));
       return response.data.items;

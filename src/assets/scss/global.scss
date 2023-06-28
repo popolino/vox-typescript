@@ -352,3 +352,15 @@ main {
 .user-container:hover {
   background-color: var(--hover);
 }
+.error-message{
+  background: var(--background);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & > p{
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--foreground);
+  }
+}
