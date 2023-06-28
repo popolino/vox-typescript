@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/vox-typescript/static/css/main.7bf883e4.css",
-    "main.js": "/vox-typescript/static/js/main.a1456dee.js",
+    "main.css": "/vox-typescript/static/css/main.196f80f9.css",
+    "main.js": "/vox-typescript/static/js/main.9feab32e.js",
     "static/css/140.8c4ef881.chunk.css": "/vox-typescript/static/css/140.8c4ef881.chunk.css",
     "static/js/140.80d01a12.chunk.js": "/vox-typescript/static/js/140.80d01a12.chunk.js",
     "static/js/787.a63ff571.chunk.js": "/vox-typescript/static/js/787.a63ff571.chunk.js",
@@ -11,14 +11,14 @@
     "static/media/user.png": "/vox-typescript/static/media/user.a6143582309785dca610.png",
     "static/media/pp.jpg": "/vox-typescript/static/media/pp.a553a1225a76e7c7cee0.jpg",
     "index.html": "/vox-typescript/index.html",
-    "main.7bf883e4.css.map": "/vox-typescript/static/css/main.7bf883e4.css.map",
-    "main.a1456dee.js.map": "/vox-typescript/static/js/main.a1456dee.js.map",
+    "main.196f80f9.css.map": "/vox-typescript/static/css/main.196f80f9.css.map",
+    "main.9feab32e.js.map": "/vox-typescript/static/js/main.9feab32e.js.map",
     "140.8c4ef881.chunk.css.map": "/vox-typescript/static/css/140.8c4ef881.chunk.css.map",
     "140.80d01a12.chunk.js.map": "/vox-typescript/static/js/140.80d01a12.chunk.js.map",
     "787.a63ff571.chunk.js.map": "/vox-typescript/static/js/787.a63ff571.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.7bf883e4.css",
-    "static/js/main.a1456dee.js"
+    "static/css/main.196f80f9.css",
+    "static/js/main.9feab32e.js"
   ]
 }
